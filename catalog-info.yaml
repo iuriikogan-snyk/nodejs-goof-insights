@@ -16,5 +16,6 @@ spec:
   type: Customer Facing app
   lifecycle: "snyk-app-prod"
   owner: iurii.kogan@snyk.io
+  system: node-goof-prod
 
 
