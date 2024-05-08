@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+
+metadata:
+  name: snyk-nodejs-goof
+  description: Demo app for Snyk AppRisk
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    circleci.com/project-slug: github/iuriikogan-snyk/nodejs-goof
+    github.com/project-slug: nodejs-goof
+    github.com/team-slug: iuriikogan-snyk
+    snyk.io/accepts-user-input: "no"
+    snyk.io/jira-prefix: EXT
+
+spec:
+  type: Customer Facing app
+  lifecycle: "snyk-app-prod"
+  owner: iurii.kogan@snyk.io
+
+
