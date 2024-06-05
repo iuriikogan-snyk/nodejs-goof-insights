@@ -38,7 +38,11 @@ jobs:
 
       - name: Setup the repo and install npm packages
         run: |
+<<<<<<< HEAD
           npm installsudo 
+=======
+          npm install --force
+>>>>>>> 4a8cd8e (update npm and snyk-test.yaml)
 
       - name: Snyk Open Source
         run: |
