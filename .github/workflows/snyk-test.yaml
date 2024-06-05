@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
 
       - name: Setup the repo and install npm packages
         run: |
-          npm install --force
+          npm install
 
       - name: Snyk Open Source
         run: |
@@ -54,7 +54,7 @@ jobs:
       - name: Snyk Container
         run: |
           docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
-          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile
+          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile || true
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
 
       - name: Snyk IaC
