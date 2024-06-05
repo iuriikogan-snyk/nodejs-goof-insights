@@ -38,7 +38,7 @@ jobs:
 
       - name: Setup the repo and install npm packages
         run: |
-          npm install --force 
+          npm install
 
       - name: Snyk Open Source
         run: |
