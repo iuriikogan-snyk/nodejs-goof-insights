@@ -34,7 +34,7 @@ jobs:
           npm install snyk -g
           npm install snyk-filter -g
           npm install snyk-to-html -g
-          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk auth
 
       - name: Setup the repo and install npm packages
         run: |
