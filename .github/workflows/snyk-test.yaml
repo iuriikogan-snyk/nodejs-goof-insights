@@ -9,6 +9,7 @@ on:
 
 env:
   SNYK_API: https://app.eu.snyk.io/api
+  IMAGE_NAME: nodejs-goof
   
 jobs:
   build:
@@ -52,9 +53,9 @@ jobs:
 
       - name: Snyk Container
         run: |
-          docker build . -t yourimage:tag
-          snyk container monitor yourimage:tag --file=Dockerfile
-        # Rename your image, for testing and failing please add snyk container test before snyk container monitor
+          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/$${{ env.IMAGE_NAME }}
+          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/$${{ env.IMAGE_NAME }} --file=Dockerfile
+        # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
 
       - name: Snyk IaC
         run: |
