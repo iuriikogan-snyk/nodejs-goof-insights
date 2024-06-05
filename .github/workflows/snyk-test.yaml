@@ -36,10 +36,6 @@ jobs:
           npm install snyk-to-html -g
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Setup the repo and install npm packages
-        run: |
-          npm install --legacy-peer-deps
-
       - name: Snyk Open Source
         run: |
           snyk test --json | snyk-filter || true
