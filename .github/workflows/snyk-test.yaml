@@ -2,10 +2,10 @@ name: Snyk SCA, Code, IaC and Container CLI monitor example
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 env:
   SNYK_API: https://app.eu.snyk.io/api
