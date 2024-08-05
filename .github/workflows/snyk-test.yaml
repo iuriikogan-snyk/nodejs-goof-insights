@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      
+      - name: Build project
+        run: npm ci
 
       - name: Setup Snyk + snyk-to-html # For information about the required commands for generating an HTML report see https://github.com/snyk/snyk-to-html
         run: |
