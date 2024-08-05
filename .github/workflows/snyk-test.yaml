@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-    continue-on-error: true
+    # continue-on-error: true
     steps:
       - uses: actions/checkout@v2
 
@@ -65,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v4.3.5
         with:
           name: snyk SBOM
-          path: /bom.cyclonex1-4.json
+          path: bom.cyclonex1-4.json
