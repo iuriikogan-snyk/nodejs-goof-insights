@@ -58,5 +58,5 @@ jobs:
         continue-on-error: true
 
       - name: Snyk SBOM generate
-        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects | jq
+        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects
         continue-on-error: true
