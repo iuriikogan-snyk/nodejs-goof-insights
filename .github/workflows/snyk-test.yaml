@@ -44,7 +44,7 @@ jobs:
         continue-on-error: true
 
       - name: Snyk Code
-        run: snyk code test --report --project-name=XXX
+        run: snyk code test
         # snyk code test --report --project-name=XXX
         continue-on-error: true
 
