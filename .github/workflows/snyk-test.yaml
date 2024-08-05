@@ -58,12 +58,11 @@ jobs:
         continue-on-error: true
 
       - name: Snyk SBOM generate
-        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects > tmp/bom.cyclonex1-4.json
+        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects > bom.cyclonex1-4.json
         continue-on-error: true
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.5
         with:
-          name: bom.cyclonex1-4.json
-          path: tmp/bom.cyclonex1-4.json
-          warn: no snyk report generated
+          name: snyk SBOM
+          path: /bom.cyclonex1-4.json
