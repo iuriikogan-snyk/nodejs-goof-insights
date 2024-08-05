@@ -39,7 +39,7 @@ jobs:
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Open Source
-        run: snyk test
+        run: snyk test --all-projects
         # run: snyk monitor --org=XXX ---project-name=XXX - Use snyk monitor command to upload the results to the UI
         continue-on-error: true
 
