@@ -31,7 +31,7 @@ jobs:
       - name: Build project
         run: npm ci --legacy-peer-deps
 
-      - name: Setup Snyk + snyk-to-html # For information about the required commands for generating an HTML report see https://github.com/snyk/snyk-to-html
+      - name: Setup Snyk + snyk-delta # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
           npm install snyk snyk-delta -g
           snyk auth ${{ secrets.SNYK_TOKEN }}
@@ -52,6 +52,11 @@ jobs:
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --exclude-app-vulns --platform=linux/amd64
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
+      
       - name: Snyk IaC
         run: snyk iac test
+        continue-on-error: true
+
+      - name: Snyk SBOM generate
+        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects
         continue-on-error: true
