@@ -15,9 +15,9 @@ jobs:
     name: Test and build
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [16.x, 18.x]
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
