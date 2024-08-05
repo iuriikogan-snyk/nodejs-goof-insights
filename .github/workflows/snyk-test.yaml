@@ -34,8 +34,6 @@ jobs:
       - name: Setup Snyk + snyk-to-html # For information about the required commands for generating an HTML report see https://github.com/snyk/snyk-to-html
         run: |
           npm install snyk -g
-          npm install snyk-filter -g
-          npm install snyk-to-html -g
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Open Source
