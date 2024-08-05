@@ -33,7 +33,7 @@ jobs:
 
       - name: Setup Snyk + snyk-delta # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
-          npm install snyk snyk-delta jq -g
+          npm install snyk snyk-delta -g
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Open Source
@@ -58,5 +58,12 @@ jobs:
         continue-on-error: true
 
       - name: Snyk SBOM generate
-        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects
+        run: snyk sbom --format=cyclonedx1.4+json --name=nodejs=goof --all-projects > tmp/bom.cyclonex1-4.json
         continue-on-error: true
+        
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.5
+        with:
+          name: bom.cyclonex1-4.json
+          path: tmp/bom.cyclonex1-4.json
+          warn: no snyk report generated
