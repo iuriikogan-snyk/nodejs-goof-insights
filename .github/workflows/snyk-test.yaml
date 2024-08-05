@@ -3,9 +3,9 @@ name: Snyk SCA, Code, IaC and Container CLI monitor example
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   IMAGE_NAME: nodejs-goof
