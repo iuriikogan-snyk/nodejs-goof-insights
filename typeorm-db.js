@@ -4,13 +4,12 @@ var EntitySchema = typeorm.EntitySchema;
 const Users = require("./entity/Users")
 
 typeorm.createConnection({
-  name: "mysql",
   type: "mysql",
-  host: "localhost",
+  host: process.env.DB_HOST,
   port: 3306,
-  username: "root",
-  password: "root",
-  database: "acme",
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   synchronize: true,
   "logging": true,
   entities: [
