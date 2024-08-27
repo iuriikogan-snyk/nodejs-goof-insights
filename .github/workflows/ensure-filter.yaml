@@ -24,6 +24,7 @@ jobs:
           if [ ! -f ".snyk-filter/snyk.yml" ] || ! cmp -s <(echo "$expected_content") .snyk-filter/snyk.yml; then
             echo "$expected_content" > .snyk-filter/snyk.yml
             echo "snyk.yml file was missing or outdated and has been replaced."
+            cat ./snyk-filer/snyk.yml
           else
             echo "snyk.yml file is up-to-date."
           fi
