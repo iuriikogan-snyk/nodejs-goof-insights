@@ -40,8 +40,7 @@ jobs:
         continue-on-error: true
 
       - name: Snyk Code
-        run: snyk code test --report --project-name=nodejs-goof
-        # snyk code test --report --project-name=XXX
+        run: snyk code test --project-name=nodejs-goof
         continue-on-error: true
 
       - name: Snyk Container
