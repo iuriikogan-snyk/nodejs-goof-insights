@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Ensure snyk.yml exists in .snyk-filter directory
+      - name: Ensure correct .snyk version exists
         run: |
-          echo "${{ secrets.SNYK_SHA }}"" | sha256sum --check -
+          echo "${{ secrets.SNYK_SHA }}" | sha256sum --check -
           if [ $? -eq 0 ]; then
                 echo ".snyk file is up-to-date."
               else
