@@ -5,3 +5,4 @@ patch: {}
 exclude:
   global:
     - test/
+    - tests/
