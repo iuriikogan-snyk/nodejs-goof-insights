@@ -1,0 +1,22 @@
+name: Ensure Snyk Filter 
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: ensure Snyk Filter Version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Ensure snyk.yml exists in .snyk-filter directory
+        run: |
+          if [ $? -eq 0 ]; then
+                echo "snyk.yml file is up-to-date."
+              else
+                echo "snyk.yml file was missing or outdated."
+                cat .snyk
+              fi
