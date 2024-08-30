@@ -2,7 +2,7 @@ name: Snyk SCA, Code, IaC and Container CLI monitor example
 
 on:
   workflow_run:
-    workflows: ["Ensure Snyk Filter"]
+    workflows: ["Ensure Snyk Policy Version"]
     types:
       - completed
 env:
