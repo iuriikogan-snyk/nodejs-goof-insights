@@ -14,17 +14,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Ensure snyk.yml exists in .snyk-filter directory
         run: |
-          mkdir -p .snyk-filter
-          expected_content='# This filter fails if there are: >2 critical upgradeable vulns
-          version: 2
-          customFilters:
-            filter: "if ([.vulnerabilities[] | select(.isUpgradable == true and .severity == \"critical\")] | length > 2) then .vulnerabilities |= map(if .isUpgradable == true and (.severity == \"critical\") then . else empty end) else .vulnerabilities |= map(empty) end"
-            pass: "if ([.vulnerabilities[] | select(.isUpgradable == true and .severity == \"critical\")] | length > 2) then 1 else 0 end"
-            msg: "Over 2 critical severity & upgradeable vulns found. Please review upgrade steps"'
-          if [ ! -f ".snyk-filter/snyk.yml" ] || ! cmp -s <(echo "$expected_content") .snyk-filter/snyk.yml; then
-            echo "$expected_content" > .snyk-filter/snyk.yml
-            echo "snyk.yml file was missing or outdated and has been replaced."
-            cat ./snyk-filer/snyk.yml
+          if (! [ echo ${{ secrets.SNYK_SHA}} | sha256sum --check ]); then
+            echo "snyk.yml file was missing or outdated."
+            echo $(cat .snyk)
           else
             echo "snyk.yml file is up-to-date."
           fi
