@@ -1,4 +1,4 @@
-name: Snyk SCA, Code, IaC and Container CLI monitor example
+name: Snyk Scan Example
 
 on:
   workflow_run:
