@@ -24,6 +24,7 @@ jobs:
     name: Trigger Snyk test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
           SNYK_ACTION_NAME: ${{ secrets.SNYK_ACTION_NAME }}
