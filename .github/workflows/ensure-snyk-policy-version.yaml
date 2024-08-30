@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: ensure .snyk policy
+    name: Ensure Snyk Policy Version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
