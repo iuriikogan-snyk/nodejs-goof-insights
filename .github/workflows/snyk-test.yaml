@@ -1,4 +1,4 @@
-name: Snyk Scan Example
+name: Snyk Scan
 
 on:
   workflow_run:
@@ -10,7 +10,7 @@ env:
   
 jobs:
   build:
-    name: Test and build
+    name: Snyk Scan 
     runs-on: ubuntu-latest
 
     strategy:
@@ -40,7 +40,7 @@ jobs:
         continue-on-error: true
 
       - name: Snyk Code
-        run: snyk code test --project-name=nodejs-goof
+        run: snyk code test --project-name=${{ env.IMAGE_NAME }}
         continue-on-error: true
 
       - name: Snyk Container
