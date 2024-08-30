@@ -1,14 +1,12 @@
 name: Ensure Snyk Policy Version
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
   build:
-    name: ensure .snyk policy version
+    name: ensure .snyk policy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
