@@ -1,4 +1,4 @@
-name: Ensure Snyk Filter 
+name: Ensure Snyk Policy Version
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: ensure Snyk Filter Version
+    name: ensure .snyk policy version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
