@@ -42,7 +42,7 @@ jobs:
 
       - name: Snyk Code
         run: |
-          cat <<EOF > .snyk
+          cat <<EOF > ./tmp/.snyk
           # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
           version: v1.25.0
           ignore: {}
@@ -50,10 +50,9 @@ jobs:
           exclude:
             global:
               - tests/
-              - routes/
           EOF
-          echo '.snyk file: ' $(cat .snyk)
-          snyk code test
+          echo 'tmp .snyk file: ' $(cat ./tmp/.snyk)
+          snyk code test --policy-file=./tmp/.snyk
         continue-on-error: true
         
       - name: Snyk Container
