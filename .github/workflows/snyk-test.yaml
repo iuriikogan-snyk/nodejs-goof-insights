@@ -1,7 +1,7 @@
 name: Snyk Scan
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   workflow_run:
     workflows: ["Ensure Snyk Policy Version"]
     types:
