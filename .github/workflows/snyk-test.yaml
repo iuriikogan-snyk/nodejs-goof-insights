@@ -53,7 +53,8 @@ jobs:
               - tests/
           EOF
           echo 'tmp .snyk file: ' $(cat /tmp/.snyk)
-          snyk code test --policy-path=/tmp/.snyk
+          snyk policy --policy-path=/tmp/.snyk
+          snyk code test
         continue-on-error: true
         
       - name: Snyk Container
