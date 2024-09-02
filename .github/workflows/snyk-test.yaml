@@ -38,7 +38,7 @@ jobs:
         continue-on-error: true
 
       - name: Snyk Code
-        run: snyk code test --project-name=${{ env.IMAGE_NAME }}
+        run: snyk code test
         continue-on-error: true
 
       - name: Snyk Container
