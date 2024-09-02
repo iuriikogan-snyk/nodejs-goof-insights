@@ -42,16 +42,15 @@ jobs:
 
       - name: Snyk Code
         run: |
-          cat .snyk >>- EOF
+          snyk code test --policy-file=<<EOF >
           # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
           version: v1.25.0
           ignore: {}
           patch: {}
           exclude:
-            global:
-              - tests/
+          global:
+            - tests/
           EOF
-          snyk code test
         continue-on-error: true
 
       - name: Snyk Container
