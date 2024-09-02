@@ -51,6 +51,8 @@ jobs:
           global:
             - tests/
           EOF
+          echo '.snyk file: ' $(cat .snyk)
+          snyk code test
         continue-on-error: true
 
       - name: Snyk Container
