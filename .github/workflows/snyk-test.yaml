@@ -42,6 +42,7 @@ jobs:
 
       - name: Snyk Code
         run: |
+          touch tmp/.snyk
           cat <<EOF > tmp/.snyk
           # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
           version: v1.25.0
