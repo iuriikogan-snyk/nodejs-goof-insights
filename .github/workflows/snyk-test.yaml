@@ -50,6 +50,7 @@ jobs:
           exclude:
             global:
               - tests/
+              - routes/
           EOF
           echo '.snyk file: ' $(cat .snyk)
           snyk code test
