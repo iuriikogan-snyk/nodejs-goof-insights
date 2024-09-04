@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Ensure correct .snyk version exists
         run: |
-          echo "${{ secrets.SNYK_SHA }}" | sha256sum --check status -
+          echo "${{ secrets.SNYK_SHA }}" | sha256sum --check --status -
           if [ $? -eq 0 ]; then
                 echo ".snyk file is up-to-date."
               else
@@ -20,7 +20,7 @@ jobs:
               fi
       - name: Check Snyk Test Version
         run: |
-          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check status -
+          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check --status -
           if [ $? -eq 0 ]; then
                 echo ".github/workflows/snyk-test.yaml is up-to-date."
               else
