@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Ensure correct .snyk version exists
+      - name: Ensure correct .snyk version
         run: |
           echo "${{ secrets.SNYK_SHA }}" | sha256sum --check -
           if [ $? -eq 0 ]; then
@@ -19,7 +19,7 @@ jobs:
                 echo ".snyk file was missing or outdated."
                 echo $(cat .snyk)
               fi
-      - name: Check Snyk Test Version
+      - name: Ensure correct snyk-test.yaml version
         run: |
           echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check -
           if [ $? -eq 0 ]; then
