@@ -20,7 +20,7 @@ jobs:
               fi
       - name: Check Snyk Test Version
         run: |
-          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check --status -
+          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check -
           if [ $? -eq 0 ]; then
                 echo ".github/workflows/snyk-test.yaml is up-to-date."
               else
