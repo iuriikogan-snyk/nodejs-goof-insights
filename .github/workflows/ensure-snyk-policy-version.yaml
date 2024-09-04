@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  Check-Policy:
+  Check-Versions:
     name: Ensure Snyk Policy Version
     runs-on: ubuntu-latest
     steps:
