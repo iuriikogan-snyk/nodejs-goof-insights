@@ -1,4 +1,4 @@
-name: Ensure Snyk Policy Version
+name: Ensure Snyk File Versions
 
 on:
   pull_request:
@@ -12,21 +12,19 @@ jobs:
       - uses: actions/checkout@v2
       - name: Ensure correct .snyk version exists
         run: |
-          echo "${{ secrets.SNYK_SHA }}" | sha256sum --check -
+          echo "${{ secrets.SNYK_SHA }}" | sha256sum --check --status -
           if [ $? -eq 0 ]; then
                 echo ".snyk file is up-to-date."
               else
                 echo ".snyk file was missing or outdated."
-                echo $(cat .snyk)
               fi
       - name: Check Snyk Test Version
         run: |
-          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check -
+          echo "${{ secrets.SNYK_TEST_SHA }}" | sha256sum --check --status -
           if [ $? -eq 0 ]; then
                 echo ".github/workflows/snyk-test.yaml is up-to-date."
               else
                 echo ".github/workflows/snyk-test.yaml file was missing or outdated."
-                echo $(cat )
               fi
   Trigger-Test:
     needs: Check-Policy
