@@ -3,7 +3,8 @@ name: Ensure Snyk File Versions
 on:
   pull_request:
     branches: [main]
-
+  push:
+    branches: [main]
 jobs:
   Check-Versions:
     name: Ensure Snyk Policy Version
