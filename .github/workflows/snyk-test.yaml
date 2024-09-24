@@ -3,9 +3,10 @@ name: Snyk Scan
 on:
   workflow_dispatch:
   pull_request:
-    branches: maio
+    branches: main
 env:
   IMAGE_NAME: nodejs-goof
+  PLATFORM: linux-arm64
   
 jobs:
   build:
@@ -44,8 +45,8 @@ jobs:
         
       - name: Snyk Container
         run: |
-          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
-          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --exclude-app-vulns --platform=linux/amd64
+          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --platform=${{ env.PLATFORM }}
+          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }}
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
       
