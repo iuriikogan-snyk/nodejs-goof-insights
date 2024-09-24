@@ -37,7 +37,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
-          tags: linux/arm64
+          tags: linux-arm64
 
       - name: Build and push
         uses: docker/build-push-action@v5 
