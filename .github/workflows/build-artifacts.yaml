@@ -6,7 +6,7 @@ on:
     branches: main
 env:
   IMAGE_NAME: nodejs-goof
-  PLATFORM: linux/arm64
+  PLATFORM: linux-arm64
 jobs:
   build:
     name: Build and push
