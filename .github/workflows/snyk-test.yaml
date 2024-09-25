@@ -47,7 +47,7 @@ jobs:
         
       - name: Snyk Container
         run: |
-          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --platform=linux/arm64 }
+          docker build -f ./Dockerfile . --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --platform=linux/arm64 }
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --exclude-app-vulns --platform=linux/arm64
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true

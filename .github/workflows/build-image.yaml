@@ -1,4 +1,4 @@
-name: Build & Artifacts
+name: Build & Push
 
 on:
   workflow_dispatch:
