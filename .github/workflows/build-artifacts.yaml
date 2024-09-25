@@ -43,6 +43,7 @@ jobs:
         uses: docker/build-push-action@v5 
         with:
           push: true
+          platforms: linux/arm64
           tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.PLATFORM }}" 
           cache-from: type=gha
           cache-to: type=gha,mode=max
