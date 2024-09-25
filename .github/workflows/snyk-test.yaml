@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
     branches: main
+  push: 
+    branches: main
 env:
   IMAGE_NAME: nodejs-goof
   PLATFORM: linux-arm64
@@ -45,7 +47,7 @@ jobs:
         
       - name: Snyk Container
         run: |
-          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --platform=linux/arm64
+          docker build . -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --platform=linux/arm64 }
           snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }} --file=Dockerfile --exclude-app-vulns --platform=linux/arm64
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
@@ -54,4 +56,19 @@ jobs:
         run: snyk iac test
         continue-on-error: true
 
+      - name: Snyk Container Monitor
+        run: |
+          snyk container monitor "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.PLATFORM }}" \
+          --file=Dockerfile --exclude-app-vulns --platform=linux/arm64 \
+          --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}"
+        continue-on-error: true
 
+      - name: Snyk SBOM generate
+        run: snyk container sbom --format=spdx2.3+json --name="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.PLATFORM }}" --file=Dockerfile --platform=linux/arm64 > bom.spdx.json
+        continue-on-error: true
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.5
+        with:
+          name: snyk SBOM
+          path: bom.spdx.json
