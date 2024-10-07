@@ -4,13 +4,15 @@
 # you can change the values here or have them available in your env prior to running the script 
 
 # Only export if not already set (optional variables)
-export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"          # Default empty if not set
+export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"
 export DOCKERHUB_USERNAME="${DOCKERHUB_USERNAME:-}"
 export DOCKERHUB_PASSWORD="${DOCKERHUB_PASSWORD:-}"
-export SNYK_INTEGRATION_ID="${SNYK_INTEGRATION_ID:-}"
-export SNYK_MONITOR_SA_TOKEN="${SNYK_MONITOR_SA_TOKEN:-}"
 export SNYK_CONNECTOR_SA_TOKEN="${SNYK_CONNECTOR_SA_TOKEN:-}"
 export SNYK_ORG_ID="${SNYK_ORG_ID:-}"
+
+# uncomment next 2 lines if deploying monitor
+export SNYK_INTEGRATION_ID="${SNYK_INTEGRATION_ID:-}"
+export SNYK_MONITOR_SA_TOKEN="${SNYK_MONITOR_SA_TOKEN:-}"
 
 # Notify user of any defaults applied (except password)
 echo "CLUSTER_NAME is set to '${CLUSTER_NAME}'"
