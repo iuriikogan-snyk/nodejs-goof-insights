@@ -4,7 +4,7 @@ set -ou pipefail
 start=$(date +%s)
 # Exit the script on any error, unset variable, or command failure in a pipeline.
 
-# **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure SNYK_MONITOR_SA_TOKEN are available in your environment**
+# **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure SNYK_MONITOR_SA_TOKEN & SNYK_INTEGRATION_ID are available in your environment**
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -29,11 +29,10 @@ fi
 
 kubectl create ns snyk-monitor
 
-
 kubectl create secret generic snyk-monitor -n snyk-monitor \
-        --from-literal=dockercfg.json={} \
-        --from-literal=integrationId="${SNYK_INTEGRATION_ID}" \
-        --from-literal=serviceAccountApiToken="${SNYK_MONITOR_SA_TOKEN}"
+    --from-literal=dockercfg.json='{}' \
+    --from-literal=integrationId="${SNYK_INTEGRATION_ID}" \
+    --from-literal=serviceAccountApiToken="${SNYK_MONITOR_SA_TOKEN}"
 
 helm repo add snyk-charts https://snyk.github.io/kubernetes-monitor --force-update
 
@@ -41,7 +40,9 @@ helm upgrade --install snyk-monitor snyk-charts/snyk-monitor \
              --namespace snyk-monitor \
              --set clusterName="dev"
 
-echo 'waiting for snyk-monitor pods to become ready....'
-kubectl -n snyk-monitor wait --for=condition=ready pod -l app.kubernetes.io/name=snyk-monitor --timeout=90s
+kubectl patch deployment snyk-monitor --type=json -p='[{ "op": "remove", "path": "/spec/template/spec/affinity"}]' -n snyk-monitor
 
-echo 'Deployed Snyk Monitor in: '$(( $(date +%s) - start )) "seconds"
+echo 'waiting for snyk-monitor pods to become ready....'
+kubectl -n snyk-monitor wait --for=condition=ready pod -l "app.kubernetes.io/name=snyk-monitor" --timeout=120s
+
+echo 'Deployed Snyk Monitor in: '$(( $(date +%s) - start ))"seconds"
