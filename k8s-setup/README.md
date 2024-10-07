@@ -2,6 +2,10 @@
 
 This document outlines how to set up the environment for deploying a Kubernetes cluster with Calico CNI, NGINX Ingress, and various components such as Snyk Connector and a vulnerable demo application. This setup has been tested with Docker Desktop and Kind.
 
+This setup creates a secure Kubernetes cluster with a vulnerable demo application for testing and monitoring purposes.
+
+!!DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS!!
+
 ## Pre-requisites
 
 Ensure that the following tools are installed on your system:
