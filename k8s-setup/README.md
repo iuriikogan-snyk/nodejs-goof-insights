@@ -4,7 +4,7 @@ This document outlines how to set up the environment for deploying a Kubernetes 
 
 This setup creates a secure Kubernetes cluster with a vulnerable demo application for testing and monitoring purposes.
 
-### !! DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS !!
+*DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS !! Highly Vulnerable Demo Application not for use in a company cloud account or anywhere it might be exploited*
 
 ## Pre-requisites
 
