@@ -124,7 +124,7 @@ Once the demo application is running, you can access it via the Ingress controll
 To confirm the ingress is set up correctly, run:
 
 ```bash
-kubectl get ingress -n nodejs-goof
+kubectl get ingress -n nodejs-goof -o yaml | grep -i host A 2
 ```
 
 ### Troubleshooting
@@ -132,6 +132,3 @@ kubectl get ingress -n nodejs-goof
 - Ensure Docker Desktop is running.
 - Verify that environment variables are correctly set up by sourcing `setenv.sh`.
 - If any deployments fail, check the logs for errors using `kubectl logs`.
-
-### This setup creates a secure Kubernetes cluster with a vulnerable demo application for testing and monitoring purposes. !!DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS!! The Snyk Connector provides real-time monitoring and reporting of vulnerabilities within the cluster
-
