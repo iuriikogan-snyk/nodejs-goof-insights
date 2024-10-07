@@ -41,7 +41,7 @@ jobs:
 
       - name: Snyk Open Source
         run: |
-          snyk monitor --all-projects --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
+          snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
           --remote-repo-url=${{ github.repository }} --target-reference=${{ github.repository }}
         # snyk-filter --json --print-deps | snyk-delta --setPassIfNoBaseline false
