@@ -1,19 +1,14 @@
 #!/usr/bin/env bash
 
+# **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure they are available in your environment**
+
+# Exit the script on any error, unset variable, or command failure in a pipeline.
 set -ou pipefail
-IFS=$'\t\n'
 
 # Record the start time
 start=$(date +%s)
 # Detect the OS
 OS=$(uname)
-
-# Function to print the usage information and exit the script with a non-zero status
-function print_usage {
-    echo "Usage: bash deploy-cluster.sh"
-    echo "$*"
-    exit 1
-}
 
 if [[ "$OS" = "Darwin" ]]; then
     echo "Deploying Kind cluster with calico CNI and nginx ingress"

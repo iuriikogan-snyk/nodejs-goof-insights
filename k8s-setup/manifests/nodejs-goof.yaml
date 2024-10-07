@@ -1,12 +1,3 @@
-#!/usr/bin/env bash
-
-# **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure they are available in your environment**
-
-# Exit the script on any error, unset variable, or command failure in a pipeline.
-set -ou pipefail
-
-# Deploy the demo application
-cat << EOL | kubectl apply -f -
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -28,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nodejs-goof 
-        image: ${IMAGE_NAME}
+        image: <IMAGE_NAME> ## UPDATE IMAGE NAME
         resources:
           limits:
             memory: "128Mi"
@@ -71,38 +62,3 @@ spec:
             name: nodejs-goof 
             port:
               number: 1337
-EOL
-
-cat << EOL | kubectl apply -f -
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nodejs-goof-internal
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nodejs-goof-internal
-  namespace: nodejs-goof-internal
-spec:
-  selector:
-    matchLabels:  
-      app: nodejs-goof-internal
-  template:
-    metadata:
-      labels:
-        app: nodejs-goof-internal
-    spec:
-      containers:
-      - name: nodejs-goof-internal
-        image: ${IMAGE_NAME}
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        ports:
-        - containerPort: 3000
-EOL
-
-echo 'waiting for nodejs-goof pods to become ready....'
-kubectl wait --for=condition=ready pod -l app=nodejs-goof -n nodejs-goof --timeout=90s

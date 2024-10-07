@@ -20,7 +20,7 @@ TODO
 
 ## I want to monitor & tag OS and Container Projects for use with Snyk AppRisk Pro via Apply-tags.py script
 
-TODO
+[apply-tags.py]
 
 ## Original Nodejs-Goof README
 

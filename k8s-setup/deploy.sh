@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # **BEFORE RUNNING THIS SCRIPT CHANGE THE VARS IN setenv.sh or ensure they are available in your environment**
-# Exit the script on any error, unset variable, or command failure in a pipeline.
-set -eou pipefail
 
+# Exit the script on any unset variable in a pipeline.
+set -eou pipefail
 
 # Function to print the usage information and exit the script with a non-zero status
 function print_usage {
@@ -11,15 +11,6 @@ function print_usage {
     echo "$@"
     exit 1
 }
-
-# Function to handle errors globally and print a custom error message
-function handle_error {
-    echo "Error on line $1"
-    exit 1
-}
-
-# Trap any error and call the handle_error function
-trap 'handle_error $LINENO' ERR
 
 # Source the environment and preparation scripts
 # shellcheck source=./setenv.sh

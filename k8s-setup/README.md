@@ -1,17 +1,17 @@
 # Deployment Setup
 
-This document outlines how to set up the environment for deploying a Kubernetes cluster with Calico CNI, NGINX Ingress, and various components such as Snyk Connector and a vulnerable demo application. This setup has been tested with Docker Desktop and Kind.
+This document outlines how to set up the environment for deploying a Kubernetes cluster with Calico CNI, NGINX Ingress, and various components such as Snyk Connector and a vulnerable demo application.
 
-This setup creates a secure Kubernetes cluster with a vulnerable demo application for testing and monitoring purposes.
+This script creates a Kubernetes cluster with a vulnerable demo application for testing and monitoring purposes.
 
-*DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS !! Highly Vulnerable Demo Application not for use in a company cloud account or anywhere it might be exploited*
+*DO NOT DEPLOY INTO PRODUCTION ENVIRONMENTS !! Highly Vulnerable Demo Application NOT for use in a company cloud account or anywhere it might be exploited*
 
 ## Pre-requisites
 
 Ensure that the following tools are installed on your system:
 
-- Docker Desktop 4.23.0
-- Kind 0.19.0
+- Docker (Daemon)
+- Kind
 - Kubectl
 - Helm
 
@@ -21,6 +21,7 @@ You can install the tools with the following commands:
 brew install kind
 brew install kubectl
 brew install helm
+brew install docker
 ```
 
 ## Script Overview
@@ -45,10 +46,10 @@ Usage: bash deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--
 
 - `--cluster`: Deploy the Kind cluster.
 - `--connector`: Deploy the Snyk Connector.
-- `--monitor`: Deploy the Snyk Monitor (Optional).
-- `--demo`: Deploy the vulnerable demo application.
+- `--monitor`: Deploy the Snyk Monitor (Optional). (This doesn't work locally)
+- `--demo`: Deploy the vulnerable demo application. 
 - `--all`: Deploy everything (Cluster, Connector, Monitor, and Demo).
-- `--demo-connector-only`: Deploy only the demo application and the connector.
+- `--demo-connector-only`: Deploy only the demo application and the connector. (into an existing cluster)
 
 ## Step-by-Step Deployment
 
@@ -64,7 +65,7 @@ The script detects the OS and uses the appropriate configuration for macOS or Li
 
 ### 2. Deploy the Snyk Connector
 
-To deploy the Snyk Connector for monitoring Kubernetes resources, use the following command:
+To deploy the Snyk Connector to 
 
 ```bash
 bash deploy.sh --connector
