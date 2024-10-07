@@ -10,6 +10,7 @@ env:
   IMAGE_TAG: nodejs-goof:linux-arm64
   PLATFORM: linux/arm64
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  REPO_NAME: ${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}
   
 jobs:
   build:
@@ -22,7 +23,10 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
-
+      - name: Interpolate REPO_NAME var and set to github env # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
+        run: |
+          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
+    
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -39,7 +43,9 @@ jobs:
       - name: Snyk Open Source
         run: |
           snyk monitor --all-projects --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-          --org=${{ secrets.SNYK_ORG_ID }} # snyk-filter --json --print-deps | snyk-delta --setPassIfNoBaseline false
+          --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ github.repository.name }} \
+          --remote-repo-url=${{ github.repository }} --target-reference=${{ env.REPO_NAME ]}
+        # snyk-filter --json --print-deps | snyk-delta --setPassIfNoBaseline false
         # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
         continue-on-error: true
 
@@ -47,10 +53,12 @@ jobs:
         run: snyk code test
         continue-on-error: true
         
-      - name: Snyk Container
+      - name: Snyk Container Test
         run: |
-          docker build -f ./Dockerfile . --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
-          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }} --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }}
+          docker build -f ./Dockerfile . \
+          --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
+          snyk container test ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }} --file=Dockerfile \
+          --exclude-app-vulns --platform=${{ env.PLATFORM }}
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
       
@@ -63,11 +71,14 @@ jobs:
           snyk container monitor "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }}" \
           --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }} \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-          --org=${{ secrets.SNYK_ORG_ID }}
+          --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
+          --remote-repo-url=${{ github.repository }} --target-reference=${{ env.REPO_NAME ]}
         continue-on-error: true
 
       - name: Snyk SBOM generate
-        run: snyk container sbom --format=spdx2.3+json --name="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }}" --file=Dockerfile --platform=${{ env.PLATFORM }} > bom.spdx.json
+        run: |
+          snyk container sbom --format=spdx2.3+json --name="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TAG }}" \
+          --file=Dockerfile --platform=${{ env.PLATFORM }} > bom.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
