@@ -42,7 +42,7 @@ jobs:
       - name: Snyk Open Source
         run: |
           snyk monitor --all-projects --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-          --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ github.repository.name }} \
+          --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
           --remote-repo-url=${{ github.repository }} --target-reference=${{ env.REPO_NAME }}
         # snyk-filter --json --print-deps | snyk-delta --setPassIfNoBaseline false
         # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
