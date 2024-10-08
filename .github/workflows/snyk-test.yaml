@@ -76,7 +76,7 @@ jobs:
 
       - name: Snyk SBOM generate
         run: |
-          snyk container sbom --format=spdx2.3+json --name="${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
+          snyk container sbom --format=spdx2.3+json "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
           --file=Dockerfile --platform=${{ env.PLATFORM }} > bom.spdx.json
         continue-on-error: true
 
