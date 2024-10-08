@@ -3,7 +3,7 @@ FROM --platform=linux/arm64 node:latest
 COPY . /app
 WORKDIR /app
 
-RUN npm install --legacy-peer-deps --force
+RUN npm install --legacy-peer-deps
 EXPOSE 3001
 EXPOSE 9229
 ENTRYPOINT ["npm", "start"]
