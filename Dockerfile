@@ -1,7 +1,7 @@
 FROM node:latest
 
 COPY . ./
-RUN npm install --legacy-peer-deps
+RUN npm ci --legacy-peer-deps
 EXPOSE 3001
 EXPOSE 9229
 ENTRYPOINT ["npm", "start"]
