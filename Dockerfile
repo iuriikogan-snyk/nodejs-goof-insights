@@ -1,6 +1,5 @@
 FROM node:6-slim
 
-RUN mkdir -p /usr/src/goof
 COPY . /usr/src/goof
 WORKDIR /usr/src/goof
 
