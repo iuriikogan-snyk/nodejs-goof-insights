@@ -76,8 +76,8 @@ jobs:
 
       - name: Snyk SBOM generate
         run: |
-          snyk container sbom --format=spdx2.3+json "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
-          --file=Dockerfile --platform=${{ env.PLATFORM }} > bom.spdx.json
+          snyk container sbom --format=spdx2.3+json  --file=Dockerfile --platform=${{ env.PLATFORM }} \
+          "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" > bom.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
