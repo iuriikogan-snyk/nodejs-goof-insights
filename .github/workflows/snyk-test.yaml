@@ -9,7 +9,6 @@ on:
 env:
   IMAGE_TAG: nodejs-goof-insights:linux-arm64
   PLATFORM: linux/arm64
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   
 jobs:
   build:
@@ -22,11 +21,10 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
-      - name: Interpolate REPO_NAME & OWNERNAME var and set to github env # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
+      - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
         run: |
-          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV 
-          echo "OWNER_NAME=${GITHUB_REPOSITORY%%/*}" >> $GITHUB_ENV
-          
+          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -38,13 +36,13 @@ jobs:
       - name: Setup Snyk + snyk-filter # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
           npm install snyk snyk-filter -g
-          snyk auth ${{ env.SNYK_TOKEN }}
+          snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Open Source
         run: |
           snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
-          --remote-repo-url=${{ github.repository }} --target-reference=${{ env.OWNERNAME }}
+          --remote-repo-url=${{ github.repository }} --target-reference=${{ github.repository }}
         # snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline false ## you can use snyk-delta to diff between previous snapshots for the same project
         # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
         # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
@@ -57,8 +55,8 @@ jobs:
       - name: Snyk Container Test
         run: |
           docker build -f ./Dockerfile . \
-          --tag ${{ env.OWNERNAME }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
-          snyk container test ${{ env.OWNERNAME }}/${{ env.IMAGE_TAG }} --file=Dockerfile \
+          --tag ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
+          snyk container test ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --file=Dockerfile \
           --exclude-app-vulns --platform=${{ env.PLATFORM }}
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
@@ -69,16 +67,16 @@ jobs:
 
       - name: Snyk Container Monitor
         run: |
-          snyk container monitor "${{ env.OWNERNAME }}/${{ env.IMAGE_TAG}}" \
+          snyk container monitor "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
           --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }} \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
-          --target-reference=${{ env.OWNERNAME }}
+          --target-reference=${{ github.repository }}
         continue-on-error: true
 
       - name: Snyk SBOM generate
         run: |
-          snyk container sbom --format=spdx2.3+json --name="${{ env.OWNERNAME }}/${{ env.IMAGE_TAG}}" \
+          snyk container sbom --format=spdx2.3+json --name="${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
           --file=Dockerfile --platform=${{ env.PLATFORM }} > bom.spdx.json
         continue-on-error: true
 
