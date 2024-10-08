@@ -1,7 +1,6 @@
 FROM node:6-slim
 
-RUN mkdir /usr/src/goof
-RUN mkdir /tmp/extracted_files
+RUN mkdir -p /usr/src/goof
 COPY . /usr/src/goof
 WORKDIR /usr/src/goof
 
