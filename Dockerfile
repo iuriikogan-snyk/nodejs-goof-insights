@@ -1,4 +1,4 @@
-FROM node:6-slim
+FROM --platform=linux/arm64 node:latest
 
 COPY . /app
 WORKDIR /app

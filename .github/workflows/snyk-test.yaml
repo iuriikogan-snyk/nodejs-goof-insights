@@ -52,6 +52,12 @@ jobs:
         run: snyk code test
         continue-on-error: true
         
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
       - name: Snyk Container Test
         run: |
           docker build -f ./Dockerfile . \
