@@ -5,7 +5,7 @@
   "homepage": "https://snyk.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Snyk/snyk-todo-list-demo-app/"
+    "url": "https://github.com/iuriikogan-snyk/nodejs-goof-insights"
   },
   "scripts": {
     "dev": "NODE_OPTIONS=--openssl-legacy-provider nodemon ./app.js",
