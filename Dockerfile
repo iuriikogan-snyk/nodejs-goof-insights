@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:6-slim
 
 COPY . ./
 RUN npm ci --legacy-peer-deps
