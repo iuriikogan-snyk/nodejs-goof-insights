@@ -22,10 +22,10 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
-      - name: Interpolate REPO_NAME var and set to github env # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
+      - name: Interpolate REPO_NAME & OWNERNAME var and set to github env # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
         run: |
           echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
-          echo "OWNER_NAME=${GITHUB_REPOSITORY#GITHUB_REPOSITORY_NAME/}" >> $GITHUB_ENV
+          echo "OWNER_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_NAME/}" >> $GITHUB_ENV
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -44,7 +44,8 @@ jobs:
           snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
           --remote-repo-url=${{ github.repository }} --target-reference=${{ env.OWNERNAME }}
-        # snyk-filter --json --print-deps | snyk-delta --setPassIfNoBaseline false
+        # snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline false ## you can use snyk-delta to diff between previous snapshots for the same project
+        # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
         # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
         continue-on-error: true
 
