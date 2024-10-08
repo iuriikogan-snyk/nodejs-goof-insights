@@ -38,6 +38,5 @@ jobs:
       - uses: actions/checkout@v2
       - env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
-          SNYK_ACTION_NAME: ${{ secrets.SNYK_ACTION_NAME }}
         run: |
           gh workflow run $SNYK_ACTION_NAME
