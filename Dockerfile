@@ -1,7 +1,7 @@
 FROM node:6-slim
 
-COPY . /usr/src/goof
-WORKDIR /usr/src/goof
+COPY . /app
+WORKDIR /app
 
 RUN npm install --legacy-peer-deps
 EXPOSE 3001
