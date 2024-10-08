@@ -6,6 +6,8 @@ on:
 #     branches: [main]
 #   push:
 #     branches: [main]
+env:
+  SNYK_ACTION_NAME: "Snyk Test"
 jobs:
   Check-Versions:
     name: Ensure Snyk Policy Version
