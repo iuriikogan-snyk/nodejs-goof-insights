@@ -25,8 +25,7 @@ jobs:
       - name: Interpolate REPO_NAME var and set to github env # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
         run: |
           echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
-          echo "OWNER_NAME"=${GITHUB_REPOSITORY#GITHUB_REPOSITORY_NAME/}" >> $GITHUB_ENV
-    
+          echo "OWNER_NAME=${GITHUB_REPOSITORY#GITHUB_REPOSITORY_NAME/}" >> $GITHUB_ENV
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
