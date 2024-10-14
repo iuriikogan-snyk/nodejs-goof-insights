@@ -33,7 +33,7 @@ jobs:
       run: |
         ARCH=amd64
         PLATFORM=$(uname -s)_$ARCH
-        curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+        curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz" -o eksctl_linux_amd64
         tar -xzf ./eksctl_linux_amd64 -o ./eksctl
         chmod +x ./eksctl && mv ./eksctl ~/.local/bin/eksctl
         eksctl --version
