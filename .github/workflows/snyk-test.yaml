@@ -83,7 +83,7 @@ jobs:
       - name: Snyk SBOM generate
         run: |
           snyk container sbom --format=spdx2.3+json --platform=${{ env.PLATFORM }} \
-          "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}"
+          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}
         continue-on-error: true
 
       - name: Upload a Build Artifact
