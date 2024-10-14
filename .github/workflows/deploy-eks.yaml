@@ -31,6 +31,12 @@ jobs:
 
     - name: Create EKS Cluster
       run: |
+        ARCH=amd64
+        PLATFORM=$(uname -s)_$ARCH
+        curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+        tar -xzf ./eksctl_linux_amd64 -o ./eksctl
+        chmod +x ./eksctl && mv ./eksctl ~/.local/bin/eksctl
+        eksctl --version
         eksctl create cluster --name=dev-cluster --region=us-east-1 --set-kubeconfig-context
 
     - name: kubectl apply
