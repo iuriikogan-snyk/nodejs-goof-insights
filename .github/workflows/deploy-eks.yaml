@@ -30,9 +30,9 @@ jobs:
         aws-region: us-east-1
 
     - name: Create EKS Cluster
-      uses: Terraform
+      run: |
+        eksctl create cluster --name=dev-cluster --region=us-east-1 --set-kubeconfig-context
 
     - name: kubectl apply
       run: |
-        aws eks update-kubeconfig --region us-east-1 --name juice-shop-cluster
         cd k8s-setup && ./deploy.sh --connector-demo-only
