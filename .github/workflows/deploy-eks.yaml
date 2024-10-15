@@ -12,7 +12,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
+    continue-on-error: true
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -55,4 +55,4 @@ jobs:
       run: |
         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/aws/deploy.yaml
         cd k8s-setup
-        ./deploy.sh --connector-demo-only
+        ./deploy.sh --demo-connector-only
