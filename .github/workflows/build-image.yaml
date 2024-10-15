@@ -9,7 +9,6 @@ on:
 
 env:
   IMAGE_NAME: nodejs-goof
-  PLATFORM: linux-arm64
 
 jobs:
   build:
@@ -37,14 +36,17 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
-          tags: linux-arm64
+          tags: |
+            type=ref,event=workflow_dispatch
+            type=semver,pattern={{version}}
 
       - name: Build and push
         uses: docker/build-push-action@v5 
         with:
           push: true
-          platforms: linux/arm64
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.PLATFORM }}" 
+          platforms: linux/arm64,linux/amd64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
