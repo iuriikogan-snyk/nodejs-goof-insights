@@ -37,7 +37,6 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=workflow_dispatch
             type=semver,pattern={{version}}
 
       - name: Build and push
