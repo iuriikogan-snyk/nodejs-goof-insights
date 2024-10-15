@@ -15,7 +15,9 @@ jobs:
   build:
     name: Build and push
     runs-on: ubuntu-latest
-  
+    strategy: 
+      matrix:
+        platforms: ["linux/arm64","linux/amd64"]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -43,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v5 
         with:
           push: true
-          platforms: linux/arm64,linux/amd64
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.PLATFORM }}" 
+          platforms: ${{ matrix.platforms }}
+          tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ matrix.platforms }}" 
           cache-from: type=gha
           cache-to: type=gha,mode=max
