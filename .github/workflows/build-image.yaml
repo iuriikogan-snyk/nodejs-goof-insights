@@ -9,7 +9,6 @@ on:
 
 env:
   IMAGE_NAME: nodejs-goof
-  PLATFORM: linux-arm64
 
 jobs:
   build:
@@ -17,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        platforms: ["linux/arm64","linux/amd64"]
+        platforms: ["linux/arm64", "linux/amd64"]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -39,13 +38,17 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
-          tags: linux-arm64
+          tags: |
+            type=raw,value=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            type=raw,value=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ matrix.platforms }}
 
       - name: Build and push
         uses: docker/build-push-action@v5 
         with:
           push: true
           platforms: ${{ matrix.platforms }}
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ matrix.platforms }}" 
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ matrix.platforms }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
