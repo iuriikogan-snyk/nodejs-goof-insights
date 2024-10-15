@@ -1,7 +1,9 @@
 name: 'Provision EKS and Deploy Demo & Connector'
 on:
   workflow_dispatch:
-
+env:
+  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
 jobs:
   provision-eks:
     name: 'Deploy to EKS'
