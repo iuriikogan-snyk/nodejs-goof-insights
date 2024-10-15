@@ -50,5 +50,6 @@ jobs:
 
     - name: Deploy with kubectl
       run: |
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/aws/deploy.yaml
         cd k8s-setup
         ./deploy.sh --connector-demo-only
