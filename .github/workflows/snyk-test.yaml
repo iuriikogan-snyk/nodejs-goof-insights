@@ -7,7 +7,7 @@ on:
   push: 
     branches: main
 env:
-  IMAGE_TAG: nodejs-goof-insights:linux-arm64
+  IMAGE_TAG: nodejs-goof:linux-arm64
   PLATFORM: linux/arm64
   
 jobs:
@@ -61,9 +61,10 @@ jobs:
       - name: Snyk Container Test
         run: |
           docker build -f ./Dockerfile . \
-          --tag ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
+          --tag ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }} 
           snyk container test ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --file=Dockerfile \
           --exclude-app-vulns --platform=${{ env.PLATFORM }}
+          
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
         continue-on-error: true
       
