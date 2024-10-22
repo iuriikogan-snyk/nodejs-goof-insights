@@ -22,7 +22,7 @@ Run snyk-test workflow with required env vars for snyk org, the tags will be app
 
 ## I want to monitor & tag OS and Container Projects for use with Snyk AppRisk Pro via Apply-tags.py script
 
-Follow instructions in the /insights directory [apply-tags.py]
+Follow instructions in the /insights directory forked from: <https://github.com/cgibbs-snyk/apply-tags>
 
 ## Original Nodejs-Goof README
 
