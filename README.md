@@ -5,7 +5,7 @@ Repo to help with demo setup for Apprisk
 ## Quick Start
 
 1. Github actions: Each workflow has a workflow_dispatch: trigger, set the required envs as repository secrets prior to running
-2. setup-k8s scripts: in the setup-k8s directory there are deploy scripts for kind, nginx, snyk-connector and a demo application with service/ingress
+2. k8s-setup scripts: in the k8s-setup directory there are deploy scripts for kind, nginx, snyk-connector and a demo application with service/ingress
 3. ACloudGuru: you can setup a demo sandbox and deploy either with the deploy-eks workflow, or by deploying a eks cluster and following the instructions for an existing cluster
 
 ## I want to deploy Snyk Connector and a demo app to a local kind cluster
