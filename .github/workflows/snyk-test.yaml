@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: '/snyk-policy/.snyk'
+          path: '/snyk-policy/'
           token: ${{ secrets.SNYK_POLICY_TOKEN }}
           
       - name: Snyk Code
