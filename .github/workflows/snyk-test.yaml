@@ -17,9 +17,8 @@ jobs:
 
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-        with: 
-          path: './'
+      - name: Checkout Repo
+        uses: actions/checkout@v4
       # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
       #   run: |
       #     echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
@@ -46,13 +45,17 @@ jobs:
       #   # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
       #   # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
       #   continue-on-error: true
-      - uses: actions/checkout@v4
+      - name: Checkout .snyk file from private repo 
+        uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: '/snyk-policy/.snyk'
-          
+          path: 'snyk-policy'
+          token: ${{ secrets.SNYK_REPO_TOKEN }}
+      
       - name: Snyk Code
-        run: snyk code test
+        run: |
+          snyk policy
+          snyk code test
         continue-on-error: true
         
       # - name: Set up QEMU
