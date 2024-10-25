@@ -53,6 +53,7 @@ jobs:
           repository: iuriikogan-snyk/snyk-policy-master
           path: '/snyk-policy/'
           token: ${{ secrets.SNYK_POLICY_TOKEN }}
+          set-safe-directory: false
           
       - name: Snyk Code
         run: snyk code test
