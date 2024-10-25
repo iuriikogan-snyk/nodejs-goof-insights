@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: '.snyk'
+          path: 'snyk-policy'
           token: ${{ secrets.SNYK_REPO_TOKEN }}
       # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
       #   run: |
@@ -53,7 +53,7 @@ jobs:
         continue-on-error: true
       - name: Snyk Code
         run: |
-          snyk policy
+          snyk policy snyk-policy
           snyk code test
         continue-on-error: true
         
