@@ -49,13 +49,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: 'snyk-policy'
           token: ${{ secrets.SNYK_REPO_TOKEN }}
       
       - name: Snyk Code
         run: |
           ls
-          snyk policy ./snyk-policy
+          snyk policy
           snyk code test
         continue-on-error: true
         
