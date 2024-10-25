@@ -54,7 +54,7 @@ jobs:
       
       - name: Snyk Code
         run: |
-          snyk policy ./snyk-policy/.snyk
+          snyk policy
           snyk code test
         continue-on-error: true
         
