@@ -46,7 +46,9 @@ jobs:
       #   # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
       #   # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
       #   continue-on-error: true
-      - uses: actions/checkout@v4
+
+      - name: Checkout .snyk file from private repo 
+        uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
           path: '/snyk-policy/.snyk'
