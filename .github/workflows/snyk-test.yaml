@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with: 
+          path: './'
       - name: Checkout .snyk file from private repo 
         uses: actions/checkout@v4
         with:
