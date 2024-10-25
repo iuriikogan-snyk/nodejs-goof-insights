@@ -18,8 +18,6 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-        with: 
-          path: './'
       # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
       #   run: |
       #     echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
@@ -50,6 +48,7 @@ jobs:
         with:
           repository: iuriikogan-snyk/snyk-policy-master
           path: '/snyk-policy/.snyk'
+          token: ${{ secrets.SNYK_POLICY_TOKEN }}
           
       - name: Snyk Code
         run: snyk code test
