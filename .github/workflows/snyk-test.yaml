@@ -56,7 +56,9 @@ jobs:
       #   continue-on-error: true
       
       - name: Snyk Code
-        run: snyk code test
+        run: |
+        snyk policy snyk-policy
+        snyk code test
         continue-on-error: true
         
       # - name: Set up QEMU
