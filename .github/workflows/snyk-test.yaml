@@ -19,16 +19,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      # - name: Checkout .snyk file from private repo 
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: iuriikogan-snyk/snyk-policy-master
-      #     path: 'snyk'
-      #     token: ${{ secrets.SNYK_REPO_TOKEN }}
-      # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
-      #   run: |
-      #     echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
-
       - name: Use Node.js 20.x
         uses: actions/setup-node@v2
         with:
@@ -42,15 +32,15 @@ jobs:
           npm install snyk snyk-filter -g
           snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      # - name: Snyk Open Source
-      #   run: |
-      #     snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-      #     --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
-      #     --remote-repo-url=${{ github.repository }} --target-reference=${{ github.repository }}
-      #   # snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline false ## you can use snyk-delta to diff between previous snapshots for the same project
-      #   # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
-      #   # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
-      #   continue-on-error: true
+      - name: Snyk Open Source
+        run: |
+          snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
+          --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ env.REPO_NAME }} \
+          --remote-repo-url=${{ github.repository }} --target-reference=${{ github.repository }}
+        # snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline false ## you can use snyk-delta to diff between previous snapshots for the same project
+        # snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
+        # run: snyk test--org=XXX ---project-name=XXX - Use snyk test command to recieve issues info to the Pipeline
+        continue-on-error: true
 
       - name: Checkout .snyk file from private repo 
         uses: actions/checkout@v4
