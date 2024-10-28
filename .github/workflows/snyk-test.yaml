@@ -19,12 +19,12 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Checkout .snyk file from private repo 
-        uses: actions/checkout@v4
-        with:
-          repository: iuriikogan-snyk/snyk-policy-master
-          path: './'
-          token: ${{ secrets.SNYK_REPO_TOKEN }}
+      # - name: Checkout .snyk file from private repo 
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: iuriikogan-snyk/snyk-policy-master
+      #     path: 'snyk'
+      #     token: ${{ secrets.SNYK_REPO_TOKEN }}
       # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
       #   run: |
       #     echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
@@ -56,13 +56,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: 'snyk-policy'
+          path: 'snyk'
           token: ${{ secrets.SNYK_REPO_TOKEN }}
       
       - name: Snyk Code
         run: |
-          snyk policy
-          snyk code test
+          snyk policy snyk
+          snyk code test --policy-path=snyk
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
