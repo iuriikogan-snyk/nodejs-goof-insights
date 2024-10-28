@@ -8,7 +8,7 @@ on:
     branches: main
 env:
   IMAGE_TAG: nodejs-goof:linux-arm64
-  PLATFORM: linux/arm64
+  PLATFORM: linux/amd64
   
 jobs:
   build:
@@ -86,14 +86,14 @@ jobs:
           --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
         continue-on-error: true
 
-      # - name: Snyk SBOM generate
-      #   run: |
-      #     snyk container sbom --format=spdx2.3+json --org=${{ secrets.SNYK_ORG_ID }} \
-      #     ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}
-      #   continue-on-error: true
+      - name: Snyk SBOM generate
+        run: |
+          snyk container sbom --format=spdx2.3+json --org=${{ secrets.SNYK_ORG_ID }} \
+          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}
+        continue-on-error: true
 
-      # - name: Upload a Build Artifact
-      #   uses: actions/upload-artifact@v4.3.5
-      #   with:
-      #     name: snyk SBOM
-      #     path: bom.spdx.json
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.3.5
+        with:
+          name: snyk SBOM
+          path: bom.spdx.json
