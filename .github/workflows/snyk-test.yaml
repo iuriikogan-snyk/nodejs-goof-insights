@@ -7,7 +7,7 @@ on:
   push: 
     branches: main
 env:
-  IMAGE_TAG: nodejs-goof:linux-arm64
+  IMAGE_TAG: nodejs-goof-insights:latest
   PLATFORM: linux/amd64
   
 jobs:
