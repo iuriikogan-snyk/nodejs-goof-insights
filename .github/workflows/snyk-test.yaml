@@ -61,7 +61,7 @@ jobs:
       
       - name: Snyk Code
         run: |
-          cd snyk
+          cp ./snyk/.snyk ./.snyk
           snyk code test
         
       - name: Set up QEMU
