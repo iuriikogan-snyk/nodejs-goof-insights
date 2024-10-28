@@ -23,7 +23,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: iuriikogan-snyk/snyk-policy-master
-          path: 'snyk-policy'
           token: ${{ secrets.SNYK_REPO_TOKEN }}
       # - name: Interpolate REPO_NAME var # Unable to pass to env or jobs.id.env etc due to limitations on $GITHUB_REPOSITORY VAR
       #   run: |
@@ -61,8 +60,8 @@ jobs:
       
       - name: Snyk Code
         run: |
-          snyk policy snyk-policy
-          snyk code test --policy-path=snyk-policy
+          snyk policy
+          snyk code test
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
