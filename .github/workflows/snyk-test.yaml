@@ -51,7 +51,8 @@ jobs:
       
       - name: Snyk Code
         run: |
-          cp -r ./snyk/ ./
+          cp ./snyk/.snyk ./.snyk
+          cp ./snyk/snyk_sha ./snyk_sha
           echo $(cat snyk_sha) | sha256sum -c -
           snyk code test
         continue-on-error: true
