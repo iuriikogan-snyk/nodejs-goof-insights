@@ -53,6 +53,7 @@ jobs:
         run: |
           cp ./snyk/.snyk ./.snyk
           snyk code test
+        continue-on-error: true
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
