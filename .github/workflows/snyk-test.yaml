@@ -61,8 +61,8 @@ jobs:
       
       - name: Snyk Code
         run: |
-          snyk policy snyk
-          snyk code test --policy-path=snyk
+          cd snyk
+          snyk code test
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
