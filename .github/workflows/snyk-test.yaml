@@ -83,8 +83,7 @@ jobs:
           snyk container monitor "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
           --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }} \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-          --org=${{ secrets.SNYK_ORG_ID }} --project-name="${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
-          --target-reference=${{ github.repository }}
+          --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
         continue-on-error: true
 
       # - name: Snyk SBOM generate
