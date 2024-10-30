@@ -1,4 +1,4 @@
-FROM node:latest as run
+FROM node:latest
 
 RUN mkdir /usr/src/goof
 RUN mkdir /tmp/extracted_files
