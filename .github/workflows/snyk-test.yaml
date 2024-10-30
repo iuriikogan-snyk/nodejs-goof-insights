@@ -2,7 +2,7 @@ name: Snyk Scan
 
 on:
   workflow_dispatch:
-
+  pull_request: main
 env:
   IMAGE_NAME: nodejs-goof
   PLATFORM: linux-arm64
