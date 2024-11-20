@@ -26,6 +26,7 @@ export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"
 # Check if required variables are set, ask user to set them if missing
 check_required_var "SNYK_CONNECTOR_SA_TOKEN"
 check_required_var "SNYK_ORG_ID"
+check_required_car "SNYK_TOKEN"
 check_required_var "IMAGE_NAME"
 
 # Export required variables (after check)
@@ -42,5 +43,6 @@ export IMAGE_NAME="${IMAGE_NAME}" # image name for deploy-demo.sh (you can use '
 echo "CLUSTER_NAME is set to ${CLUSTER_NAME}"
 echo "SNYK_MONITOR_SA_TOKEN is set"
 echo "SNYK_CONNECTOR_SA_TOKEN is set"
+echo "SNYK_TOKEN is set"
 echo "SNYK_ORG_ID is set to ${SNYK_ORG_ID}"
 echo "IMAGE_NAME is set to ${IMAGE_NAME}"
