@@ -17,6 +17,7 @@ env:
   ## Change this if you have a seperate token for monitor 
   SNYK_MONITOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  CLUSTER_NAME: "dev"
   
 jobs:
   provision-eks:
