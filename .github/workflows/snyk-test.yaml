@@ -17,7 +17,6 @@ jobs:
     name: Snyk Scan 
     runs-on: ubuntu-latest
 
-    continue-on-error: true
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -92,7 +91,7 @@ jobs:
       - name: Snyk SBOM generate
         run: |
           snyk container sbom --format=spdx2.3+json --platform=${{ env.PLATFORM }} --org=${{ secrets.SNYK_ORG_ID }} \
-          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}
+          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}} > bom.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
@@ -100,3 +99,4 @@ jobs:
         with:
           name: snyk SBOM
           path: bom.spdx.json
+        continue-on-error: true
