@@ -18,7 +18,7 @@ env:
   SNYK_MONITOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
   SNYK_INTEGRATION_ID: ${{ secrets.SNYK_INTEGRATION_ID }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-  CLUSTER_NAME: "dev-1"
+  CLUSTER_NAME: "dev-2"
   
 jobs:
   provision-eks:
