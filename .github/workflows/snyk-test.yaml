@@ -9,6 +9,8 @@ on:
 env:
   IMAGE_TAG: nodejs-goof-insights:latest
   PLATFORM: linux/amd64
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
+  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
   
 jobs:
   build:
