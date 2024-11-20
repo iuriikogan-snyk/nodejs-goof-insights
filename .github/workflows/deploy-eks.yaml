@@ -1,6 +1,7 @@
 name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
 # Requires AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNYK_ORG_ID, SNYK_TOKEN, IMAGE_NAME (full tag)
 # Optional: SNYK_CONNECTOR_SA_TOKEN, SNYK_MONITOR_SA_TOKEN
+# Set the DEPLOY_SCRIPT_FLAG based on what you want to deploy to eks
 on:
   workflow_dispatch:
   # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
@@ -8,9 +9,7 @@ on:
 env:
   # "Usage: deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--demo-connector-only
   DEPLOY_SCRIPT_FLAGs: "--demo --connector --monitor"
-  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
-  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
-  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  
 jobs:
   provision-eks:
     name: 'Deploy to EKS'
