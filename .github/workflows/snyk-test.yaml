@@ -32,7 +32,7 @@ jobs:
       - name: Setup Snyk + snyk-filter # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
           npm install snyk snyk-filter -g
-          SNYK_TOKEN=$SNYK_TOKEN snyk auth --auth-type=token
+          snyk auth $SNYK_TOKEN --auth-type=token
       
       - name: Snyk Open Source
         run: |
