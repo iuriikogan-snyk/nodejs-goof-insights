@@ -6,16 +6,17 @@ on:
     branches: main
   push: 
     branches: main
+env: 
+  IMAGE_TAG: nodejs-goof-insights:latest
+  PLATFORM: linux/amd64
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
+  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
 
 jobs:
   build:
     name: Snyk Scan 
     runs-on: ubuntu-latest
-    env: 
-      IMAGE_TAG: nodejs-goof-insights:latest
-      PLATFORM: linux/amd64
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
-      SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
+
     continue-on-error: true
     steps:
       - name: Checkout Repo
@@ -31,7 +32,7 @@ jobs:
       - name: Setup Snyk + snyk-filter # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
           npm install snyk snyk-filter -g
-          snyk auth --auth-type=token
+          SNYK_TOKEN=$SNYK_TOKEN snyk auth --auth-type=token
       
       - name: Snyk Open Source
         run: |
