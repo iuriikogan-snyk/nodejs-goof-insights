@@ -64,13 +64,6 @@ function adminLoginSuccess(redirectPage, session, username, res) {
   }
 }
 
-const limiter = new RateLimit({
-  windowMs: parseInt(process.env.WINDOW_MS, 10),
-  max: parseInt(process.env.MAX_IP_REQUESTS, 10),
-  delayMs:parseInt(process.env.DELAY_MS, 10),
-  headers: true
-});
-
 exports.login = function (req, res, next) {
   return res.render('admin', {
     title: 'Admin Access',
