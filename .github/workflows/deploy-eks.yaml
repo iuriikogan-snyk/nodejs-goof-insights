@@ -13,9 +13,10 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
-  SNYK_CONNECTOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
   ## Change this if you have a seperate token for monitor 
-  SNYK_MONITOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_MONITOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_INTEGRATION_ID: ${{ secrets.SNYK_INTEGRATION_ID }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   CLUSTER_NAME: "dev-1"
   
