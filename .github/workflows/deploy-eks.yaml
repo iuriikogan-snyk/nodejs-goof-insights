@@ -1,7 +1,11 @@
-name: 'Provision EKS and Deploy Demo & Connector'
+name: 'Provision EKS and Deploy Demo and/ord Snyk Connector/Monitor'
 on:
   workflow_dispatch:
+  # Ensure the github action secrets are set and run the workflow manually 
+  # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
 env:
+  # "Usage: deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--demo-connector-only
+  DEPLOY_SCRIPT_FLAGs: --demo --connector --monitor
   SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
@@ -55,4 +59,4 @@ jobs:
       run: |
         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/aws/deploy.yaml
         cd k8s-setup
-        ./deploy.sh --demo-connector-only
+        ./deploy.sh ${{ env.DEPLOY_SCRIPT_FLAGS}}
