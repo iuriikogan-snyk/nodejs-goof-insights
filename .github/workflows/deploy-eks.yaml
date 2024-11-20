@@ -1,4 +1,6 @@
 name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
+# Requires AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNYK_ORG_ID, SNYK_TOKEN, IMAGE_NAME (full tag)
+# Optional: SNYK_CONNECTOR_SA_TOKEN, SNYK_MONITOR_SA_TOKEN
 on:
   workflow_dispatch:
   # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
