@@ -1,4 +1,4 @@
-name: 'Provision EKS and Deploy Demo and/ord Snyk Connector/Monitor'
+name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
 on:
   workflow_dispatch:
   # Ensure the github action secrets are set and run the workflow manually 
