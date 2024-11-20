@@ -33,19 +33,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-
       - name: Build and push
         uses: docker/build-push-action@v5 
         with:
           push: true
           platforms: ${{ matrix.platforms }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{secrets.DOCKERHUB_USERNAME }}:${{ env.IMAGE_NAME }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
