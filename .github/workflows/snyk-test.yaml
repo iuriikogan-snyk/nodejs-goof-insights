@@ -90,7 +90,7 @@ jobs:
 
       - name: Snyk SBOM generate
         run: |
-          snyk container sbom --format=spdx2.3+json --org=${{ secrets.SNYK_ORG_ID }} \
+          snyk container sbom --format=spdx2.3+json \
           ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}:latest > bom.spdx.json
         continue-on-error: true
 
