@@ -15,7 +15,8 @@ env:
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
   SNYK_CONNECTOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
   ## Change this if you have a seperate token for monitor 
-  SNYK_MONITOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }} 
+  SNYK_MONITOR_SA_TOKEN: $ {{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   
 jobs:
   provision-eks:
