@@ -1,5 +1,5 @@
 name: Build & Push
-
+# Requires DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets
 on:
   workflow_dispatch:
   workflow_run:
