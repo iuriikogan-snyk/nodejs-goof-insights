@@ -64,7 +64,6 @@ function adminLoginSuccess(redirectPage, session, username, res) {
   }
 }
 
-const RateLimit = require('express-rate-limit');
 const limiter = new RateLimit({
   windowMs: parseInt(process.env.WINDOW_MS, 10),
   max: parseInt(process.env.MAX_IP_REQUESTS, 10),
@@ -72,7 +71,6 @@ const limiter = new RateLimit({
   headers: true
 });
 
-app.use(limiter);
 exports.login = function (req, res, next) {
   return res.render('admin', {
     title: 'Admin Access',
