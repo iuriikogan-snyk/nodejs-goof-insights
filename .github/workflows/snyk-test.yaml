@@ -6,18 +6,17 @@ on:
     branches: main
   push: 
     branches: main
-env:
+env: 
   IMAGE_TAG: nodejs-goof-insights:latest
   PLATFORM: linux/amd64
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
-  
+
 jobs:
   build:
     name: Snyk Scan 
     runs-on: ubuntu-latest
 
-    continue-on-error: true
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -32,8 +31,8 @@ jobs:
       - name: Setup Snyk + snyk-filter # For information about the required commands https://docs.snyk.io/scm-ide-and-ci-cd-integrations/snyk-ci-cd-integrations
         run: |
           npm install snyk snyk-filter -g
-          snyk auth --auth-type=token
-
+          snyk auth $SNYK_TOKEN --auth-type=token
+      
       - name: Snyk Open Source
         run: |
           snyk monitor --file=./package.json --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
@@ -91,8 +90,8 @@ jobs:
 
       - name: Snyk SBOM generate
         run: |
-          snyk container sbom --format=spdx2.3+json --platform=${{ env.PLATFORM }} --org=${{ secrets.SNYK_ORG_ID }} \
-          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}}
+          snyk container sbom --format=spdx2.3+json \
+          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}} > bom.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
@@ -100,3 +99,4 @@ jobs:
         with:
           name: snyk SBOM
           path: bom.spdx.json
+        continue-on-error: true

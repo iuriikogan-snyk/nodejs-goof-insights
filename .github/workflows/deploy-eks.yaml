@@ -7,16 +7,24 @@ on:
   # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
   # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
 env:
-  # "Usage: deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--demo-connector-only
-  DEPLOY_SCRIPT_FLAGs: "--demo --connector --monitor"
+  # "Usage: deploy.sh [--connector] [--monitor] [--demo] [--demo-connector-only
+  DEPLOY_SCRIPT_FLAGS: "--demo --connector --monitor"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
+  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  ## Change this if you have a seperate token for monitor 
+  SNYK_MONITOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_INTEGRATION_ID: ${{ secrets.SNYK_INTEGRATION_ID }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  CLUSTER_NAME: "dev-1"
   
 jobs:
   provision-eks:
     name: 'Deploy to EKS'
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
     continue-on-error: true
     steps:
     - name: Checkout
@@ -54,7 +62,7 @@ jobs:
 
     - name: Create EKS Cluster
       run: |
-        eksctl create cluster --name=dev --region=us-east-1 --set-kubeconfig-context
+        eksctl create cluster --name=${{ env.CLUSTER_NAME }} --region=us-east-1 --set-kubeconfig-context
 
     - name: Deploy with kubectl
       run: |
