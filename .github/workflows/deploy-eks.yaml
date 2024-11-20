@@ -1,7 +1,7 @@
 name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
 on:
   workflow_dispatch:
-  # Ensure the github action secrets are set and run the workflow manually 
+  # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
   # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
 env:
   # "Usage: deploy.sh [--cluster] [--connector] [--monitor] [--demo] [--all] [--demo-connector-only
