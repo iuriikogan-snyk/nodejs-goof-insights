@@ -92,12 +92,12 @@ jobs:
       - name: Snyk SBOM generate
         run: |
           snyk container sbom --format=spdx2.3+json \
-          ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
+          ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.${{ github.ref }}.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.5
         with:
           name: snyk SBOM
-          path: bom.spdx.${{ github.ref }}.json
+          path: bom.${{ github.ref }}.spdx.json
         continue-on-error: true
