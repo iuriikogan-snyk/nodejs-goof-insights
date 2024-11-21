@@ -38,6 +38,6 @@ jobs:
         with:
           push: true
           platforms: ${{ matrix.platforms }}
-          tags: ${{secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:v.1.0.${{ github.workflow_run}}
+          tags: ${{secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:v.1.0.${{ github.event.workflow_run.run_number}}
           cache-from: type=gha
           cache-to: type=gha,mode=max
