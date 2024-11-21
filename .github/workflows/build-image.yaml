@@ -9,6 +9,7 @@ on:
 
 env:
   IMAGE_NAME: nodejs-goof-insights
+  IMAGE_TAG: v2.0.0
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        platforms: ["linux/amd64", "linux/arm64"]
+        platforms: ["linux/amd64"]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -38,6 +39,6 @@ jobs:
         with:
           push: true
           platforms: ${{ matrix.platforms }}
-          tags: ${{secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:v.1.0.${{ github.event.workflow_run.run_number}}
+          tags: ${{secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
