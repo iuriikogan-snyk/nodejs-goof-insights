@@ -7,7 +7,8 @@ on:
   push: 
     branches: main
 env: 
-  IMAGE_TAG: nodejs-goof-insights:latest
+  IMAGE_NAME: nodejs-goof-insights
+  IMAGE_TAG: v1.1.0
   PLATFORM: linux/amd64
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
@@ -68,9 +69,9 @@ jobs:
       
         run: |
           docker build -f ./Dockerfile . \
-          --tag ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
+          --tag ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --platform=${{ env.PLATFORM }}
           
-          snyk container test ${{ github.repository_owner }}/${{ env.IMAGE_TAG }} --file=Dockerfile \
+          snyk container test ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --file=Dockerfile \
           --exclude-app-vulns --platform=${{ env.PLATFORM }}
           
         # Rename your image, for uploading directly to your snyk org please use the command "snyk container monitor $container_name/$tag --org=$ORG_ID"
@@ -82,7 +83,7 @@ jobs:
 
       - name: Snyk Container Monitor
         run: |
-          snyk container monitor "${{ github.repository_owner }}/${{ env.IMAGE_TAG}}" \
+          snyk container monitor "${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
           --file=Dockerfile --exclude-app-vulns --platform=${{ env.PLATFORM }} \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
@@ -91,12 +92,12 @@ jobs:
       - name: Snyk SBOM generate
         run: |
           snyk container sbom --format=spdx2.3+json \
-          ${{ github.repository_owner }}/${{ env.IMAGE_TAG}} > bom.spdx.json
+          ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.${{ env.IMAGE_NAME }}.spdx.json
         continue-on-error: true
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.5
         with:
           name: snyk SBOM
-          path: bom.spdx.json
+          path: bom.${{ env.IMAGE_NAME }}.spdx.json
         continue-on-error: true
