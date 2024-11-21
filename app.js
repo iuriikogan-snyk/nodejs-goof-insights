@@ -31,6 +31,7 @@ var routesUsers = require('./routes/users.js')
 
 // all environments
 app.set('port', process.env.PORT || 3001);
+app.set('host', process.env.HOST || '0.0.0.0')
 app.engine('ejs', ejsEngine);
 app.engine('dust', cons.dust);
 app.engine('hbs', hbs.__express);
@@ -83,6 +84,6 @@ if (app.get('env') == 'development') {
 var token = 'SECRET_TOKEN_f8ed84e8f41e4146403dd4a6bbcea5e418d23a9';
 console.log('token: ' + token);
 
-http.createServer(app).listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), app.get('host'), function () {
+  console.log('Express server listening at host: ' + app.get('host') + ' on port ' + app.get('port'));
 });
