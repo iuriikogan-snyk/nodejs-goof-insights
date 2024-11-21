@@ -18,18 +18,7 @@ mongoose.model('User', User);
 
 // CloudFoundry env vars
 // var mongoCFUri = cfenv.getAppEnv().getServiceURL('goof-mongo');
-// console.log(JSON.stringify(cfenv.getAppEnv()));
-
-// // // Default Mongo URI is local
-// // const DOCKER = process.env.DOCKER
-// // if (DOCKER === '1') {
-// //   var mongoUri = 'mongodb://goof-mongo/express-todo';
-// // } else {
-// //   var mongoUri = 'mongodb://localhost/express-todo';
-// // }
-
-
-// // CloudFoundry Mongo URI
+// console.log(JSON.stringify(cfenv.getAppEnv()));loudFoundry Mongo URI
 // if (mongoCFUri) {
 //   mongoUri = mongoCFUri;
 // } else if (process.env.MONGOLAB_URI) {
@@ -41,7 +30,8 @@ mongoose.model('User', User);
 // }
 
 // k8s env setup
-mongoUri = process.env.MONGO_URI;
+// Default Mongo URI is local
+
 console.log("Using Mongo URI " + mongoUri);
 
 mongoose.connect(mongoUri);

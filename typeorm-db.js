@@ -35,12 +35,7 @@ AppDataSource.initialize()
         address: "UK",
         role: "admin",
       }),
-      repo.insert({
-        name: "Iurii",
-        address: "RO",
-        role: "admin",
-      }),
-    ];
+
 
     await Promise.all(inserts);
     console.log("Users have been successfully seeded!");
