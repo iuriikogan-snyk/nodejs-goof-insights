@@ -31,7 +31,6 @@ var routesUsers = require('./routes/users.js')
 
 // all environments
 app.set('port', process.env.PORT || 3001);
-app.set('host', process.env.HOST || '0.0.0.0')
 app.engine('ejs', ejsEngine);
 app.engine('dust', cons.dust);
 app.engine('hbs', hbs.__express);

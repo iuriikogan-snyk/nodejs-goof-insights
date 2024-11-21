@@ -37,7 +37,7 @@ spec:
         - name: MONGO_URI
           value: mongodb://mongo:27017/goof-mongo
         - name: MYSQL_URI
-          value: mysql://goofuser:goofpassword@mysql:3306/goofdb
+          value: mysql://goofuser:goofpassword@mysql:3306/goof-mysql
         ports:
         - containerPort: 3001
 ---
