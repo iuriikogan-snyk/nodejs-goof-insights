@@ -1,9 +1,8 @@
-var typeorm = require("typeorm");
-var EntitySchema = typeorm.EntitySchema;
+const { DataSource, EntitySchema } = require("typeorm");
+const Users = require("./entity/Users");
 
-const Users = require("./entity/Users")
-
-typeorm.createConnection({
+// Define a new data source
+const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.MYSQL_URI,
   port: 3306,
@@ -11,35 +10,42 @@ typeorm.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   synchronize: true,
-  "logging": true,
+  logging: true,
   entities: [
     new EntitySchema(Users)
-  ]
-}).then(() => {
+  ],
+});
 
-  const dbConnection = typeorm.getConnection('mysql')
+AppDataSource.initialize()
+  .then(async (dataSource) => {
+    console.log("Data Source has been initialized!");
 
-  const repo = dbConnection.getRepository("Users")
-  return repo
-}).then((repo) => {
+    const repo = dataSource.getRepository("Users");
 
+    console.log("Seeding 2 users to MySQL users table: Liran (role: user), Simon (role: admin)");
 
-  console.log('Seeding 2 users to MySQL users table: Liran (role: user), Simon (role: admin')
-  const inserts = [
-    repo.insert({
-      name: "Liran",
-      address: "IL",
-      role: "user"
-    }),
-    repo.insert({
-      name: "Simon",
-      address: "UK",
-      role: "admin"
-    })
-  ];
+    const inserts = [
+      repo.insert({
+        name: "Liran",
+        address: "IL",
+        role: "user",
+      }),
+      repo.insert({
+        name: "Simon",
+        address: "UK",
+        role: "admin",
+      }),
+      repo.insert({
+        name: "Iurii",
+        address: "RO",
+        role: "admin",
+      }),
+    ];
 
-  return Promise.all(inserts)
-}).catch((err) => {
-  console.error('failed connecting and seeding users to the MySQL database')
-  console.error(err)
-})
+    await Promise.all(inserts);
+    console.log("Users have been successfully seeded!");
+  })
+  .catch((err) => {
+    console.error("Failed connecting and seeding users to the MySQL database");
+    console.error(err);
+  });
