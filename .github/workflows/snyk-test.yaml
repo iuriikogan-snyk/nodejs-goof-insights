@@ -98,5 +98,5 @@ jobs:
         uses: actions/upload-artifact@v4.3.5
         with:
           name: snyk SBOM
-          path: bom.spdx.json
+          path: bom.spdx.${{ github.ref }}.json
         continue-on-error: true
