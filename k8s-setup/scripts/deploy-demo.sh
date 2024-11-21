@@ -33,9 +33,11 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-         env:
-         - name: PORT
-           value: 3001
+        env:
+            - name: MONGO_URI
+              value: mongodb://mongo:27017/goof-mongo
+            - name: MYSQL_URI
+              value: mysql://goofuser:goofpassword@mysql:3306/goofdb
         ports:
         - containerPort: 3001
 ---
