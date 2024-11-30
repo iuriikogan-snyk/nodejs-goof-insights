@@ -25,13 +25,14 @@ mongoose.model('User', User);
 //   // Generic (plus Heroku) env var support
 //   mongoUri = process.env.MONGOLAB_URI;
 // } else if (process.env.MONGODB_URI) {
+
 //   // Generic (plus Heroku) env var support
 //   mongoUri = process.env.MONGODB_URI;
 // }
 
 // k8s env setup
 // Default Mongo URI is local
-
+mongoUri = process.env.MONGO_URI || 'mongodb://localhost/goof';
 console.log("Using Mongo URI " + mongoUri);
 
 mongoose.connect(mongoUri);
@@ -41,7 +42,7 @@ User.find({ username: 'admin@snyk.io' }).exec(function (err, users) {
   console.log(users);
   if (users.length === 0) {
     console.log('no admin');
-    new User({ username: 'admin@snyk.io', password: process.env.ADMIN_PASSWORD }).save(function (err, user, count) {
+    new User({ username: 'admin@snyk.io', password: process.env.DB_PASS }).save(function (err, user, count) {
       if (err) {
         console.log('error saving admin user');
       }
