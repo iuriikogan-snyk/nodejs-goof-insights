@@ -1,4 +1,4 @@
-name: Build & Push
+name: Snyk CD Action
 # Requires DOCKERHUB_USERNAME and DOCKERHUB_TOKEN secrets
 on:
   workflow_dispatch:
