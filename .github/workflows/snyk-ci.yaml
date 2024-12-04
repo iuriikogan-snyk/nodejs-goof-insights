@@ -35,7 +35,8 @@ jobs:
       
       - name: Snyk Open Source
         run: |
-          snyk test --json | snyk-filter ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
+          snyk test --json | snyk-filter 
+        ## you can edit the .snyk-filter/snyk.yaml file in order to apply additional filters
         continue-on-error: true
         # snyk test --json --print-deps | snyk-delta --setPassIfNoBaseline false ## you can use snyk-delta to diff between previous snapshots for the same project
 
