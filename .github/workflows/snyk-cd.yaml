@@ -50,14 +50,14 @@ jobs:
           ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.${{ github.ref }}.spdx.json
         continue-on-error: true
       
-      - name: Install Notation and ORAS CLI
-        run: |
-          curl -fsSL https://github.com/notaryproject/notation/releases/download/v1.0.0/notation-linux-amd64.tar.gz | tar -xz -C /usr/local/bin
-        # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
+      # - name: Install Notation and ORAS CLI
+      #   run: |
+      #     curl -fsSL https://github.com/notaryproject/notation/releases/download/v1.0.0/notation-linux-amd64.tar.gz | tar -xz -C /usr/local/bin
+      #   # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
 
-      - name: Sign SBOM with Notation
-        run: |
-          #TODO
+      # - name: Sign SBOM with Notation
+      #   run: |
+      #     #TODO
 
       - name: Push SBOM and Signature to Registry
          # running oras as a container and attach both sbom and signature 
