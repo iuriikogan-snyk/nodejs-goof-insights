@@ -1,11 +1,13 @@
-FROM node:latest
+FROM node:18 AS build
+WORKDIR /app
 
-RUN mkdir /usr/src/goof
-RUN mkdir /tmp/extracted_files
-COPY . /usr/src/goof
-WORKDIR /usr/src/goof
+COPY ./package.json ./
+COPY . .
+RUN --mount=type=cache,target=/app/npm/cache,id=npmcache \
+  npm install --legacy-peer-deps --cache /app/npm/cache
 
-RUN npm install --legacy-peer-deps
+FROM node:18-bookworm-slim AS run
+COPY --from=build --chown=node:node ./app ./
 EXPOSE 3001
 EXPOSE 9229
 ENTRYPOINT ["npm", "start"]

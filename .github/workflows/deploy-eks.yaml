@@ -1,0 +1,71 @@
+name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
+# Requires AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNYK_ORG_ID, SNYK_TOKEN, IMAGE_NAME (full tag)
+# Optional: SNYK_CONNECTOR_SA_TOKEN, SNYK_MONITOR_SA_TOKEN, SNYK_INTEGRATION_ID
+# Set the DEPLOY_SCRIPT_FLAG based on what you want to deploy to eks
+on:
+  workflow_dispatch:
+  # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
+  # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
+env:
+  # "Usage: deploy.sh [--connector] [--monitor] [--demo]
+  DEPLOY_SCRIPT_FLAGS: "--demo --connector"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
+  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  ## Change this if you have a seperate token for monitor 
+  SNYK_MONITOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_INTEGRATION_ID: ${{ secrets.SNYK_INTEGRATION_ID }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  CLUSTER_NAME: "dev-2"
+  
+jobs:
+  provision-eks:
+    name: 'Deploy to EKS'
+    runs-on: ubuntu-latest
+    
+    continue-on-error: true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        mkdir -p ~/.local/bin
+        mv ./kubectl ~/.local/bin/kubectl
+        echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
+        source ~/.bashrc
+        kubectl version --client
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Install eksctl
+      run: |
+        ARCH=amd64
+        PLATFORM=$(uname -s)_$ARCH
+        curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+        tar -xzf eksctl_$PLATFORM.tar.gz
+        chmod +x eksctl
+        mkdir -p ~/.local/bin
+        mv ./eksctl ~/.local/bin/eksctl
+        echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
+        source ~/.bashrc
+        eksctl version
+
+    - name: Create EKS Cluster
+      run: |
+        eksctl create cluster --name=${{ env.CLUSTER_NAME }} --region=us-east-1 --set-kubeconfig-context
+
+    - name: Deploy with kubectl
+      run: |
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/aws/deploy.yaml
+        cd k8s-setup
+        ./deploy.sh ${{ env.DEPLOY_SCRIPT_FLAGS}}

@@ -1,46 +1,52 @@
-# Snyk Nodejs-Goof Insights Demo Repository
+# Goof - Snyk's vulnerable demo app
+[![Known Vulnerabilities](https://snyk.io/test/github/snyk/goof/badge.svg?style=flat-square)](https://snyk.io/test/github/snyk/goof)
 
-Repo to help with demo setup for Apprisk
+A vulnerable Node.js demo application, based on the [Dreamers Lab tutorial](http://dreamerslab.com/blog/en/write-a-todo-list-with-express-and-mongodb/).
 
-## Quick Start
+## Features
 
-1. Github actions: Each workflow has a workflow_dispatch: trigger, set the required envs as repository secrets prior to running
-2. k8s-setup scripts: in the k8s-setup directory there are deploy scripts for kind, nginx, snyk-connector and a demo application with service/ingress
-3. ACloudGuru: you can setup a demo sandbox and deploy either with the deploy-eks workflow, or by deploying a eks cluster and following the instructions for an existing cluster
-4. catalog-info.yaml file for App Context
+This vulnerable app includes the following capabilities to experiment with:
+* [Exploitable packages](#exploiting-the-vulnerabilities) with known vulnerabilities
+* [Docker Image Scanning](#docker-image-scanning) for base images with known vulnerabilities in system libraries
+* [Runtime alerts](#runtime-alerts) for detecting an invocation of vulnerable functions in open source dependencies
+*update
 
-## I want to deploy Snyk Connector and a demo app to a local kind cluster
-
-Follow instructions in the setup-k8s directory to deploy a kind cluster, with nginx ingress controller, nodejs-demo app and snyk-connector to display OS, Deployed and Public Facing Risk Factors
-
-## I want to deploy Snyk Connector and a demo app to an existing cluster
-
-Follow instrustions in the setup-k8s directory for deploying the demo app and kubernetes connector only
-
-## I want to monitor & tag OS and Container Projects for use with Snyk AppRisk Pro via Github Actions
-
-Run snyk-test github action workflow with required env vars for snyk org, the tags will be applied and the build image workflow will be triggered which will push build and push your image to Dockerhub
-
-## I want to monitor & tag OS and Container Projects for use with Snyk AppRisk Pro via Apply-tags.py script
-
-Follow instructions in the /insights directory forked from: <https://github.com/cgibbs-snyk/apply-tags>
-
-## Original Nodejs-Goof README
-
-[README-GOOF.md](./README-GOOF.md)
-
-## I want to run the nodejs-good demo app with docker-compose
-
+## Running
 ```bash
-docker-compose up -d
+mongod &
+
+git clone https://github.com/snyk-labs/nodejs-goof
+npm install
+npm start
+```
+This will run Goof locally, using a local mongo on the default port and listening on port 3001 (http://localhost:3001)
+
+Note: You *have* to use an old version of MongoDB version due to some of these old libraries' database server APIs. MongoDB 3 is known to work ok.
+
+You can also run the MongoDB server individually via Docker, such as:
+
+```sh
+docker run --rm -p 27017:27017 mongo:3
 ```
 
-nodejs-goof will be available at http://localhost:3001
-
-Cleanup
-
+## Running with docker-compose
 ```bash
+docker-compose up --build
 docker-compose down
+```
+
+### Heroku usage
+Goof requires attaching a MongoLab service to be deployed as a Heroku app. 
+That sets up the MONGOLAB_URI env var so everything after should just work. 
+
+### CloudFoundry usage
+Goof requires attaching a MongoLab service and naming it "goof-mongo" to be deployed on CloudFoundry. 
+The code explicitly looks for credentials to that service. 
+
+### Cleanup
+To bulk delete the current list of TODO items from the DB run:
+```bash
+npm run cleanup
 ```
 
 ## Exploiting the vulnerabilities
@@ -207,8 +213,4 @@ snyk wizard
 
 In this application, the default `snyk wizard` answers will fix all the issues.
 When the wizard is done, restart the application and run the exploits again to confirm they are fixed.
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 # nodejs-goof
