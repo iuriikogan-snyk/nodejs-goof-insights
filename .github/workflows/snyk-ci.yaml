@@ -50,9 +50,9 @@ jobs:
       
       - name: Snyk Code
         run: |
-          cp ./snyk/.snyk ./.snyk
-          echo $(cat ./snyk/snyk_sha) | sha256sum -c -
-          snyk code test
+          snyk code test --policy-path=snyk
+        # cp ./snyk/.snyk ./.snyk
+        # echo $(cat ./snyk/snyk_sha) | sha256sum -c -
         continue-on-error: true
         
       - name: Set up QEMU
