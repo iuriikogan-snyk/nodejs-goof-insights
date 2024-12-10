@@ -52,7 +52,8 @@ jobs:
         run: |
           cp ./snyk/.snyk ./.snyk
           echo $(cat ./snyk/snyk_sha) | sha256sum -c -
-          snyk code test
+          snyk code test 
+        # --policy-path='snyk'
         continue-on-error: true
         
       - name: Set up QEMU
