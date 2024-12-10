@@ -49,7 +49,7 @@ jobs:
           snyk container sbom --format=spdx2.3+json \
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
         continue-on-error: true
-      I
+  
       - name: Install Notation and generate a default certificate
         run: |
           curl -fsSL https://github.com/notaryproject/notation/releases/download/v1.2.0/notation-linux-amd64.tar.gz | tar -xz -C /usr/local/bin
