@@ -62,11 +62,13 @@ jobs:
       - name: Push SBOM and Signature to Registry
          # running oras as a container and attach both sbom and signature 
         run: |
-          alias doras="docker run -it --rm -v $(pwd):/workspace ghcr.io/oras-project/oras:v1.2.0"
-          echo ${{ secrets.DOCKERHUB_TOKEN }} | doras attach -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker run -it --rm -v $(pwd):/workspace ghcr.io/oras-project/oras:v1.2.0
+          -e REGISTRY_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} \
+          -e REGISTRY_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }} \
+          "attach ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
           --artifact-type application/spdx+json \
           "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
-          bom.spdx.json
+          bom.spdx.json"
         # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
       
       - name: Snyk Container Monitor
