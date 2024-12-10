@@ -52,33 +52,31 @@ jobs:
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
         continue-on-error: true
   
+        # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
       - name: Install Notation and generate a default certificate
         run: |
-          NOTATION_VERSION=1.2.0
-          curl -LO https://github.com/notaryproject/notation/releases/download/v$NOTATION_VERSION/notation_$NOTATION_VERSION\_linux_amd64.tar.gz
-          curl -LO https://github.com/notaryproject/notation/releases/download/v$NOTATION_VERSION/notation_$NOTATION_VERSION\_checksums.txt
-          shasum --check notation_$NOTATION_VERSION\_checksums.txt
+          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz -o notation.tar.gz
+          tar xvzf notation.tar.gz -C /usr/bin/ notation
+          
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          notation cert generate-test --default "wabbit-networks.io"
-        # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
 
-      - name: Sign SBOM with Notation
-        run: |
+          notation cert generate-test --default "wabbit-networks.io"
+          
           notation sign "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
 
       - name: Push SBOM and Signature to Registry
-         # running oras as binary sbom and signature 
+        # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
         run: |
           curl -LO "https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_darwin_arm64.tar.gz"
           mkdir -p oras-install/
           tar -zxf oras_1.2.0_*.tar.gz -C oras-install/
           sudo mv oras-install/oras /usr/local/bin/
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | oras login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          
           oras attach ${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
           --artifact-type application/spdx+json \
           "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
           bom.spdx.json
-        # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
       
       - name: Snyk Container Monitor
         run: |
