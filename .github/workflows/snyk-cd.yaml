@@ -54,10 +54,10 @@ jobs:
   
       - name: Install Notation and generate a default certificate
         run: |
-          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_v1.2.0\_linux_amd64.tar.gz
-          mkdir -p notation-install/
-          tar -zxf notation_v1.2.0_linux_amd64.tar.gz -o notation -C notation-install/ 
-          sudo mv notation-install/notation /usr/local/bin/
+          NOTATION_VERSION=1.2.0
+          curl -LO https://github.com/notaryproject/notation/releases/download/v$NOTATION_VERSION/notation_$NOTATION_VERSION\_linux_amd64.tar.gz
+          curl -LO https://github.com/notaryproject/notation/releases/download/v$NOTATION_VERSION/notation_$NOTATION_VERSION\_checksums.txt
+          shasum --check notation_$NOTATION_VERSION\_checksums.txt
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           notation cert generate-test --default "wabbit-networks.io"
         # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
