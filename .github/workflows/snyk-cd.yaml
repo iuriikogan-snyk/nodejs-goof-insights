@@ -62,7 +62,7 @@ jobs:
       - name: Push SBOM and Signature to Registry
          # running oras as a container and attach both sbom and signature 
         run: |
-          alias doras='docker run -it --rm -v $(pwd):/workspace ghcr.io/oras-project/oras:v1.2.0'  
+          alias doras="docker run -it --rm -v $(pwd):/workspace ghcr.io/oras-project/oras:v1.2.0"
           echo ${{ secrets.DOCKERHUB_TOKEN }} | doras attach -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           --artifact-type application/spdx+json \
           "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
