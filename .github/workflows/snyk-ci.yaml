@@ -50,7 +50,7 @@ jobs:
       
       - name: Snyk Code
         run: |
-          snyk code test --policy-path=snyk
+          snyk code test --policy-path='snyk'
         # cp ./snyk/.snyk ./.snyk
         # echo $(cat ./snyk/snyk_sha) | sha256sum -c -
         continue-on-error: true
