@@ -10,6 +10,7 @@ on:
 env:
   IMAGE_NAME: nodejs-goof-insights
   IMAGE_TAG: v2.0.0
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 jobs:
   build:
@@ -53,7 +54,10 @@ jobs:
   
       - name: Install Notation and generate a default certificate
         run: |
-          curl -fsSL https://github.com/notaryproject/notation/releases/download/v1.2.0/notation-linux-amd64.tar.gz | tar -xz -C /usr/local/bin
+          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_v1.2.0\_linux_amd64.tar.gz
+          mkdir -p notation-install/
+          tar -zxf notation_v1.2.0_linux_amd64.tar.gz -o notation -C notation-install/ 
+          sudo mv notation-install/notation /usr/local/bin/
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           notation cert generate-test --default "wabbit-networks.io"
         # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
@@ -65,7 +69,7 @@ jobs:
       - name: Push SBOM and Signature to Registry
          # running oras as binary sbom and signature 
         run: |
-          curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_1.2.0_darwin_arm64.tar.gz"
+          curl -LO "https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_darwin_arm64.tar.gz"
           mkdir -p oras-install/
           tar -zxf oras_1.2.0_*.tar.gz -C oras-install/
           sudo mv oras-install/oras /usr/local/bin/
