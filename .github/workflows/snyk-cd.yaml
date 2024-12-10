@@ -47,7 +47,7 @@ jobs:
       - name: Snyk SBOM generate
         run: |
           npm install snyk -g
-          SNYK_TOKEN=${{ secrets.SNYK_TOKEN }} snyk auth --auth-type=token
+          SNYK_TOKEN=${{ secrets.SNYK_TOKEN }} snyk auth --auth-type=token $SNYK_TOKEN
           snyk container sbom --format=spdx2.3+json \
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
         continue-on-error: true
@@ -55,9 +55,9 @@ jobs:
         # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
       - name: Install Notation and generate a default certificate
         run: |
-          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz -o notation.tar.gz
-          tar xvzf notation.tar.gz -C /usr/bin/ notation
-          
+        curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz 
+        tar xvzf notation.tar.gz -C /usr/bin/ notation
+
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
           notation cert generate-test --default "wabbit-networks.io"
