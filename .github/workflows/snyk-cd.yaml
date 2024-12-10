@@ -58,11 +58,10 @@ jobs:
           curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz
           sudo tar xvzf notation_1.2.0_linux_amd64.tar.gz -C /usr/bin/ notation
 
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-
           notation cert generate-test --default "wabbit-networks.io"
           
-          notation sign "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation sign "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
+          -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
       - name: Push SBOM and Signature to Registry
         # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
