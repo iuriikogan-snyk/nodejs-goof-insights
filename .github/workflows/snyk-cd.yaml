@@ -55,8 +55,8 @@ jobs:
         # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
       - name: Install Notation and generate a default certificate
         run: |
-        curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz 
-        tar xvzf notation.tar.gz -C /usr/bin/ notation
+          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz 
+          tar xvzf notation.tar.gz -C /usr/bin/ notation
 
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
