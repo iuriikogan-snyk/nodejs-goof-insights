@@ -22,7 +22,7 @@
     "consolidate": "0.14.5",
     "crypt": "^0.0.2",
     "dustjs-helpers": "1.5.0",
-    "dustjs-linkedin": "2.5.0",
+    "dustjs-linkedin": "3.0.0",
     "ejs": "2.5.5",
     "ejs-locals": "1.0.2",
     "errorhandler": "1.2.0",
