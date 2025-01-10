@@ -1,7 +1,7 @@
 name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
 # Requires AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNYK_ORG_ID, SNYK_TOKEN, IMAGE_NAME (full tag)
 # Optional: SNYK_CONNECTOR_SA_TOKEN, SNYK_MONITOR_SA_TOKEN, SNYK_INTEGRATION_ID
-# Set the DEPLOY_SCRIPT_FLAG based on what you want to deploy to eks
+# Set the DEPLOY_SCRIPT_FLAG based on what you want to deploy to eks (see ./k8s-setup/README.md)
 on:
   workflow_dispatch:
   # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
