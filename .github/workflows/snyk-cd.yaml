@@ -60,8 +60,8 @@ jobs:
 
           notation cert generate-test --default "wabbit-networks.io"
           
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | notation sign "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
-          -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          notation sign "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
+          -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD}}
 
       - name: Push SBOM and Signature to Registry
         # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
