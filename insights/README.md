@@ -1,4 +1,4 @@
-# apply-tags
+# apply-tags forked from: <https://github.com/cgibbs-snyk/apply-tags>
 
 This is a Python-based CLI application that automates the process of applying tags to Snyk Projects, with the end goal of linking containers and repositories for AppRisk Pro issue detection.
 

@@ -17,29 +17,22 @@ var User = new Schema({
 mongoose.model('User', User);
 
 // CloudFoundry env vars
-var mongoCFUri = cfenv.getAppEnv().getServiceURL('goof-mongo');
-console.log(JSON.stringify(cfenv.getAppEnv()));
+// var mongoCFUri = cfenv.getAppEnv().getServiceURL('goof-mongo');
+// console.log(JSON.stringify(cfenv.getAppEnv()));loudFoundry Mongo URI
+// if (mongoCFUri) {
+//   mongoUri = mongoCFUri;
+// } else if (process.env.MONGOLAB_URI) {
+//   // Generic (plus Heroku) env var support
+//   mongoUri = process.env.MONGOLAB_URI;
+// } else if (process.env.MONGODB_URI) {
 
+//   // Generic (plus Heroku) env var support
+//   mongoUri = process.env.MONGODB_URI;
+// }
+
+// k8s env setup
 // Default Mongo URI is local
-const DOCKER = process.env.DOCKER
-if (DOCKER === '1') {
-  var mongoUri = 'mongodb://goof-mongo/express-todo';
-} else {
-  var mongoUri = 'mongodb://localhost/express-todo';
-}
-
-
-// CloudFoundry Mongo URI
-if (mongoCFUri) {
-  mongoUri = mongoCFUri;
-} else if (process.env.MONGOLAB_URI) {
-  // Generic (plus Heroku) env var support
-  mongoUri = process.env.MONGOLAB_URI;
-} else if (process.env.MONGODB_URI) {
-  // Generic (plus Heroku) env var support
-  mongoUri = process.env.MONGODB_URI;
-}
-
+mongoUri = process.env.MONGO_URI || 'mongodb://localhost/goof';
 console.log("Using Mongo URI " + mongoUri);
 
 mongoose.connect(mongoUri);
@@ -49,7 +42,7 @@ User.find({ username: 'admin@snyk.io' }).exec(function (err, users) {
   console.log(users);
   if (users.length === 0) {
     console.log('no admin');
-    new User({ username: 'admin@snyk.io', password: process.env.ADMIN_PASSWORD }).save(function (err, user, count) {
+    new User({ username: 'admin@snyk.io', password: process.env.DB_PASS }).save(function (err, user, count) {
       if (err) {
         console.log('error saving admin user');
       }

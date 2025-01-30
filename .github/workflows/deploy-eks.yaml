@@ -1,17 +1,30 @@
-name: 'Provision EKS and Deploy Demo & Connector'
+name: 'Provision EKS and Deploy Demo and/or Snyk Connector/Monitor'
+# Requires AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SNYK_ORG_ID, SNYK_TOKEN, IMAGE_NAME (full tag)
+# Optional: SNYK_CONNECTOR_SA_TOKEN, SNYK_MONITOR_SA_TOKEN, SNYK_INTEGRATION_ID
+# Set the DEPLOY_SCRIPT_FLAG based on what you want to deploy to eks (see ./k8s-setup/README.md)
 on:
   workflow_dispatch:
+  # Ensure the github action secrets are set and run the workflow manually this will take 15-20 min
+  # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
 env:
-  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  # "Usage: deploy.sh [--connector] [--monitor] [--demo]
+  DEPLOY_SCRIPT_FLAGS: "--demo --connector"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
+  SNYK_CONNECTOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  ## Change this if you have a seperate token for monitor 
+  SNYK_MONITOR_SA_TOKEN: ${{ secrets.SNYK_CONNECTOR_SA_TOKEN }}
+  SNYK_INTEGRATION_ID: ${{ secrets.SNYK_INTEGRATION_ID }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  CLUSTER_NAME: "dev-2"
+  
 jobs:
   provision-eks:
     name: 'Deploy to EKS'
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
     continue-on-error: true
     steps:
     - name: Checkout
@@ -49,10 +62,10 @@ jobs:
 
     - name: Create EKS Cluster
       run: |
-        eksctl create cluster --name=dev --region=us-east-1 --set-kubeconfig-context
+        eksctl create cluster --name=${{ env.CLUSTER_NAME }} --region=us-east-1 --set-kubeconfig-context
 
     - name: Deploy with kubectl
       run: |
         kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/aws/deploy.yaml
         cd k8s-setup
-        ./deploy.sh --demo-connector-only
+        ./deploy.sh ${{ env.DEPLOY_SCRIPT_FLAGS}}

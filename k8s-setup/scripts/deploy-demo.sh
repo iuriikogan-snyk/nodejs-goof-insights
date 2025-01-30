@@ -33,8 +33,13 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        env:
+        - name: MONGO_URI
+          value: mongodb://mongo:27017/goof-mongo
+        - name: MYSQL_URI
+          value: mysql://goofuser:goofpassword@mysql:3306/goof-mysql
         ports:
-        - containerPort: 3000
+        - containerPort: 3001
 ---
 apiVersion: v1
 kind: Service
@@ -47,7 +52,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 1337
-      targetPort: 3000
+      targetPort: 3001
       protocol: TCP
   selector:
     app: nodejs-goof 

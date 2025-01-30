@@ -26,6 +26,7 @@ export CLUSTER_NAME="${CLUSTER_NAME:="dev"}"
 # Check if required variables are set, ask user to set them if missing
 check_required_var "SNYK_CONNECTOR_SA_TOKEN"
 check_required_var "SNYK_ORG_ID"
+check_required_var "SNYK_TOKEN"
 check_required_var "IMAGE_NAME"
 
 # Export required variables (after check)
