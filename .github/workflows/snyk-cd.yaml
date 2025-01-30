@@ -66,7 +66,7 @@ jobs:
         # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
         run: |
           curl -LO "https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_darwin_arm64.tar.gz"
-          sudo tar xvzf oras_1.2.0_*.tar.gz -C /usr/bin/ oras
+          sudo tar -xvzf oras_1.2.0_darwin_arm64.tar.gz -C /usr/bin/ oras
 
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | oras login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           
