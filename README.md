@@ -43,6 +43,8 @@ Cleanup
 docker-compose down
 ```
 
+
+
 ## Exploiting the vulnerabilities
 
 This app uses npm dependencies holding known vulnerabilities,
