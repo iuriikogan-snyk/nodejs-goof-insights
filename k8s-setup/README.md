@@ -108,7 +108,7 @@ kubectl get pods --all-namespaces
 kubectl get nodes
 ```
 
-### Example Output:
+### Example Output
 
 ```bash
 NAMESPACE              NAME                                      READY   STATUS    RESTARTS   AGE
@@ -126,6 +126,12 @@ To confirm the ingress is set up correctly, run:
 
 ```bash
 kubectl get ingress -n nodejs-goof -o yaml | grep -i host A 2
+```
+
+### Clean up the Environment
+
+```bash
+kind delete cluster --name $CLUSTER_NAME
 ```
 
 ### Troubleshooting

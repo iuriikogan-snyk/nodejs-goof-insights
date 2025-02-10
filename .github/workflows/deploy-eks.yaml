@@ -8,7 +8,7 @@ on:
   # https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow
 env:
   # "Usage: deploy.sh [--connector] [--monitor] [--demo]
-  DEPLOY_SCRIPT_FLAGS: "--demo --connector"
+  DEPLOY_SCRIPT_FLAGS: "--demo --connector --monitor"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

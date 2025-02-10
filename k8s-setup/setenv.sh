@@ -33,7 +33,7 @@ check_required_var "IMAGE_NAME"
 
 export SNYK_CONNECTOR_SA_TOKEN="${SNYK_CONNECTOR_SA_TOKEN}"
 export SNYK_ORG_ID="${SNYK_ORG_ID}"
-export IMAGE_NAME="${IMAGE_NAME}" # image name for deploy-demo.sh (you can use 'iuriikogan/nodejs-goof:linux-arm64' or your own)
+export IMAGE_NAME="${IMAGE_NAME}" # image name for deploy-demo.sh (you can use 'iuriikogan/nodejs-goof-insights:v2.0.0' or your own)
 
 # Uncomment next 2 lines if deploying monitor
 # export SNYK_INTEGRATION_ID="${SNYK_INTEGRATION_ID:-}"
