@@ -1,4 +1,4 @@
-name: Snyk CI Action
+name: DEMO CI Action
 ## requires SNYK_TOKEN and SNYK_ORG_ID secret
 on:
   workflow_dispatch:
