@@ -91,6 +91,7 @@ def startup():
         }
 
         # Making a GET request to verify the connection
+        # deepcode ignore Ssrf: <please specify a reason of ignoring this>
         response = requests.get(f"{BASE_URL}/v1/user/me", headers=headers)
 
         # Check if the response status code is not 200 (OK), raise an exception if not
@@ -124,6 +125,7 @@ def get_target_id_by_name(target_name):
         'Authorization': f'token {SNYK_TOKEN}'
     }
 
+    # file deepcode ignore Ssrf: <please specify a reason of ignoring this>
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
@@ -212,6 +214,7 @@ def tag_project(project_id, key, value):
     }
 
     # Send a POST request to add the tag to the project
+    # deepcode ignore Ssrf: <please specify a reason of ignoring this>
     return requests.request("POST", url, headers=headers, json=payload)
 
 

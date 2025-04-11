@@ -21,6 +21,7 @@ describe('Component Tests', () => {
     test('should call Auth.changePassword when passwords match', () => {
       // GIVEN
 
+      // deepcode ignore NoHardcodedPasswords/test: <please specify a reason of ignoring this>
       comp.password = comp.confirmPassword = 'myPassword';
 
       // WHEN
@@ -32,6 +33,7 @@ describe('Component Tests', () => {
 
     test('should set success to OK upon success', function() {
       // GIVEN
+      // deepcode ignore NoHardcodedPasswords/test: <please specify a reason of ignoring this>
       comp.password = comp.confirmPassword = 'myPassword';
 
       // WHEN

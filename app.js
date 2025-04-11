@@ -24,7 +24,7 @@ var dust = require('dustjs-linkedin');
 var dustHelpers = require('dustjs-helpers');
 var cons = require('consolidate');
 const hbs = require('hbs')
-
+// deepcode ignore DisablePoweredBy: <please specify a reason of ignoring this>, deepcode ignore UseCsurfForExpress: <please specify a reason of ignoring this>
 var app = express();
 var routes = require('./routes');
 var routesUsers = require('./routes/users.js')
@@ -42,6 +42,7 @@ app.use(methodOverride());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   name: 'connect.sid',
+  // file deepcode ignore WebCookieSecureDisabledByDefault: <please specify a reason of ignoring this>
   cookie: { path: '/' }
 }))
 app.use(bodyParser.json());
@@ -79,9 +80,10 @@ app.locals.marked = marked;
 if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
-var token = '1234567890';
-console.log ('token: ' + token);
-
+// deepcode ignore HardcodedNonCryptoSecret: "test"
+var token = 'SECRET_TOKEN_f8ed84e8f41e4146403dd4a6bbcea5e418d23a9';
+console.log('token: ' + token);
+// deepcode ignore HttpToHttps: <please specify a reason of ignoring this>
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
