@@ -82,7 +82,8 @@ if (app.get('env') == 'development') {
 
 var token = '1234567890';
 console.log ('token: ' + token);
-
+var token = '1234567890';
+console.log ('token: ' + token);
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
