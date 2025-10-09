@@ -43,42 +43,42 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Snyk SBOM generate
-        run: |
-          npm install snyk -g
-          snyk auth --auth-type=token $SNYK_TOKEN
-          snyk container sbom --format=spdx2.3+json \
-          ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
-        continue-on-error: true
+      # - name: Snyk SBOM generate
+      #   run: |
+      #     npm install snyk -g
+      #     snyk auth --auth-type=token $SNYK_TOKEN
+      #     snyk container sbom --format=spdx2.3+json \
+      #     ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} > bom.spdx.json
+      #   continue-on-error: true
   
-        # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
-      - name: Install Notation, generate a cert and sign the image
-        run: |
-          curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz
-          sudo tar xvzf notation_1.2.0_linux_amd64.tar.gz -C /usr/bin/ notation
+      #   # Install Notation CLI for signing artifacts (https://github.com/notaryproject/notation)
+      # - name: Install Notation, generate a cert and sign the image
+      #   run: |
+      #     curl -LO https://github.com/notaryproject/notation/releases/download/v1.2.0/notation_1.2.0\_linux_amd64.tar.gz
+      #     sudo tar xvzf notation_1.2.0_linux_amd64.tar.gz -C /usr/bin/ notation
 
-          notation cert generate-test --default "wabbit-networks.io"
+      #     notation cert generate-test --default "wabbit-networks.io"
           
-          notation sign "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
-          -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD}}
+      #     notation sign "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
+      #     -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD}}
 
-      - name: Push SBOM and Signature to Registry
-        # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
-        run: |
-          curl -LO "https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz"
-          sudo tar -xvzf oras_1.2.0_linux_amd64.tar.gz -C /usr/bin/ oras
+      # - name: Push SBOM and Signature to Registry
+      #   # Push SBOM and signature to registry using ORAS (https://oras.land/docs/installation)
+      #   run: |
+      #     curl -LO "https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz"
+      #     sudo tar -xvzf oras_1.2.0_linux_amd64.tar.gz -C /usr/bin/ oras
 
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | oras login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      #     echo ${{ secrets.DOCKERHUB_PASSWORD }} | oras login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           
-          oras attach "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
-          --artifact-type application/spdx+json \
-          bom.spdx.json
+      #     oras attach "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
+      #     --artifact-type application/spdx+json \
+      #     bom.spdx.json
       
       - name: Snyk Container Monitor
         run: |
           snyk container monitor "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
-          --file=Dockerfile --exclude-app-vulns --platform=linux/amd64 \
-          --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
-          --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
+          # --file=Dockerfile --exclude-app-vulns --platform=linux/amd64 \
+          # --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
+          # --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
 
         continue-on-error: true
