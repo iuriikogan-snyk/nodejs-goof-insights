@@ -1,10 +1,9 @@
 FROM node:18 AS build
-WORKDIR /app
 
 COPY ./package.json ./
 COPY . .
-RUN --mount=type=cache,target=/app/npm/cache,id=npmcache \
-  npm install --legacy-peer-deps --cache /app/npm/cache
+RUN --mount=type=cache,target=/npm/cache,id=npmcache \
+  npm install --legacy-peer-deps --cache /npm/cache
 
 FROM node:18-bookworm-slim AS run
 COPY --from=build --chown=node:node ./app ./

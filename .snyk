@@ -5,3 +5,5 @@ patch: {}
 exclude:
   global:
     - routes/
+    - tests/
+    - mockapi/
