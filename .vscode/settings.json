@@ -1,3 +1,4 @@
 {
-    "snyk.advanced.additionalParameters": "--all-projects"
+    "snyk.advanced.additionalParameters": "--all-projects",
+    "terminal.integrated.fontSize": 12
 }

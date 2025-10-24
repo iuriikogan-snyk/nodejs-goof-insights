@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    if: ${{ github.event.pull_request.merged }}
+    # if: ${{ github.event.pull_request.merged }}
     name: Build and push
     runs-on: ubuntu-latest
 
@@ -76,7 +76,7 @@ jobs:
       
       - name: Snyk Container Monitor
         run: |
-          snyk container monitor "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" \
+          snyk container monitor node:22.13 --org=$SNYK_ORG_ID \
           --file=Dockerfile --exclude-app-vulns --platform=linux/amd64 \
           --tags="component=pkg:${{ github.repository }}@${{ github.ref_name }}" \
           --org=${{ secrets.SNYK_ORG_ID }} --target-reference=${{ github.repository }}
