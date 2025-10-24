@@ -80,9 +80,10 @@ app.locals.marked = marked;
 if (app.get('env') == 'development') {
   app.use(errorHandler());
 }
-// deepcode ignore HardcodedNonCryptoSecret: "test"
+
 var token = 'SECRET_TOKEN_f8ed84e8f41e4146403dd4a6bbcea5e418d23a9';
 console.log('token: ' + token);
+
 // deepcode ignore HttpToHttps: <please specify a reason of ignoring this>
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
